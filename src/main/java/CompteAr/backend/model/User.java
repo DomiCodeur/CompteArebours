@@ -1,13 +1,20 @@
-package CompteAr.backend.User;
-import java.util.List;
+package CompteAr.backend.model;
+
+import jakarta.persistence.*;
+
 import java.util.Date;
+import java.util.List;
 
-
+@Entity
+@Table
 public class User {
-    // créer la classe User
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String username;
     private String password;
+
     private List<Date> savedDates;
 
     // `User(username, password)`** : construit un nouvel utilisateur avec le nom d'utilisateur et le mot de passe spécifiés.
@@ -16,9 +23,7 @@ public class User {
         this.password = password;
 
     }
-
-
-    public User() {
+        public User() {
     }
 
     public static void addUser(User user) {
@@ -27,6 +32,14 @@ public class User {
 
     public static List<User> getUsers() {
         return User.getUsers();
+    }
+
+    public static void registerUser(String username, String password) {
+        User.registerUser(username, password);
+
+    }
+
+    public static void deleteUser(User user) {
     }
 
     // `getId()`** : retourne l'identifiant de l'utilisateur.
@@ -64,15 +77,15 @@ public class User {
         this.password = password;
     }
 
-    // `getSavedDates()`** : retourne la liste des dates suvegardées par l'utilisateur.
+
     public List<Date> getSavedDates() {
+        if (savedDates == null) {
+            return null;
+        }
         return savedDates;
     }
 
-    // `setSavedDates(savedDates)`** : change la liste des dates sauvegardées par l'utilisateur.
-    public void setSavedDates(List<Date> savedDates) {
-        this.savedDates = savedDates;
+    public boolean validate() {
+        return true;
     }
-
-
 }
