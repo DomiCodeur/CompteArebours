@@ -1,20 +1,19 @@
 package CompteAr.backend.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "saved_dates")
 public class SavedDates {
     private long userId;
-    private String date;
+    private Date date;
     private String timeUnit;
     private String name;
     private Long id;
 
-    public SavedDates(long userId, String date, String timeUnit, String name) {
+    public SavedDates(long userId, Date date, String timeUnit, String name) {
         this.userId = userId;
         this.date = date;
         this.timeUnit = timeUnit;
@@ -24,7 +23,9 @@ public class SavedDates {
     public SavedDates() {
     }
 
-    @Column(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
     public long getUserId() {
         return userId;
     }
@@ -33,10 +34,10 @@ public class SavedDates {
     }
 
     @Column(name = "date", nullable = false)
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

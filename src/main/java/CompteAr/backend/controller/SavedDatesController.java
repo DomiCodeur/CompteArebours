@@ -16,27 +16,10 @@ public class SavedDatesController {
     public Iterable<SavedDates> getAllSavedDates() {
         return savedDatesRepository.findAll();
     }
-    @PostMapping("/setSavedDates")
-    public SavedDates setSavedDates(@RequestBody SavedDates savedDates) {
-        return savedDatesRepository.save(savedDates);
-    }
-
-    @GetMapping("/getSavedDates")
-    public SavedDates getSavedDatesByUserId(@RequestParam long userId) {
+    @GetMapping("/getSavedDates/{userId}")
+    public SavedDates getSavedDatesByUserId(@PathVariable long userId) {
         return savedDatesRepository.findByUserId(userId);
     }
-
-    @DeleteMapping("/deleteSavedDates")
-    public void deleteSavedDates(@RequestBody SavedDates savedDates) {
-        savedDatesRepository.delete(savedDates);
-    }
-
-    @PutMapping("/updateSavedDates")
-    public void updateSavedDates(@RequestBody SavedDates savedDates) {
-        savedDatesRepository.save(savedDates);
-    }
-
-
 
 
 }
