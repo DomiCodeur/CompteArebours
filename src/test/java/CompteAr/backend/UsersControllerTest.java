@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -57,16 +58,16 @@ class UserControllerTest {
     }
 
     @Test
-    void testGetUser_NotFound() throws ResourceNotFoundException {
+    void testGetUser_NotFound() {
         // given
         long id = 1L;
         given(usersRepository.findById(id)).willReturn(Optional.empty());
 
         // when
-        ResponseEntity<Users> result = usersController.getUserById(id);
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> usersController.getUserById(id));
 
         // then
-        assertThat(result.getStatusCodeValue(), is(404));
+        assertThat(exception.getMessage(), is("User not found for this id :: " + id));
     }
 
     @Test
@@ -75,7 +76,7 @@ class UserControllerTest {
         long id = 1L;
         Users user = new Users("John", "Doe", "john.doe@example.com");
         user.setId(id);
-        given(usersRepository.findById(id)).willReturn(Optional.of(user));
+        given(usersRepository.findById    (id)).willReturn(Optional.of(user));
         given(usersRepository.save(user)).willReturn(user);
 
         // when
@@ -84,51 +85,49 @@ class UserControllerTest {
         // then
         assertThat(result.getStatusCodeValue(), is(200));
         assertThat(result.getBody(), is(user));
-        verify(usersRepository).save(user);
     }
 
     @Test
-    void testUpdateUser_NotFound() throws ResourceNotFoundException {
+    void testUpdateUser_NotFound() {
         // given
         long id = 1L;
         Users user = new Users("John", "Doe", "john.doe@example.com");
         given(usersRepository.findById(id)).willReturn(Optional.empty());
 
         // when
-        ResponseEntity<Users> result = usersController.updateUser(id, user);
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> usersController.updateUser(id, user));
 
         // then
-        assertThat(result.getStatusCodeValue(), is(404));
+        assertThat(exception.getMessage(), is("User not found for this id :: " + id));
     }
 
     @Test
     void testDeleteUser() throws ResourceNotFoundException {
         // given
         long id = 1L;
-        Users user2 = new Users("John", "Doe", "john.doe@example.com");
-        user2.setId(id);
-        given(usersRepository.findById(id)).willReturn(Optional.of(user2));
+        Users user = new Users("John", "Doe", "john.doe@example.com");
+        user.setId(id);
+        given(usersRepository.findById(id)).willReturn(Optional.of(user));
 
         // when
         ResponseEntity result = usersController.deleteUser(id);
 
         // then
-        assertThat(result.getStatusCodeValue(), is(204));
-        verify(usersRepository).delete(user2);
+        assertThat(result.getStatusCodeValue(), is(200));
+        verify(usersRepository).delete(user);
     }
 
     @Test
-    void testDeleteUser_NotFound() throws ResourceNotFoundException {
+    void testDeleteUser_NotFound() {
         // given
         long id = 1L;
         given(usersRepository.findById(id)).willReturn(Optional.empty());
 
         // when
-        ResponseEntity result = usersController.deleteUser(id);
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> usersController.deleteUser(id));
 
         // then
-        assertThat(result.getStatusCodeValue(), is(204));
+        assertThat(exception.getMessage(), is("User not found for this id :: " + id));
     }
-
 }
 
