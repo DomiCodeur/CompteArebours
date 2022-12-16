@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -17,12 +15,17 @@ public class UsersController {
         @Autowired
         private UsersRepository usersRepository;
 
-        @GetMapping("/getAllUsers")
+        @GetMapping
         public List<Users> getAllUsers() {
                 return usersRepository.findAll();
         }
 
-        @GetMapping("/getUser/{id}")
+        @PostMapping
+        public Users createUser(@RequestBody Users user) {
+                return usersRepository.save(user);
+        }
+
+        @GetMapping("/{id}")
         public ResponseEntity<Users> getUserById(@PathVariable(value = "id") Long userId)
                 throws ResourceNotFoundException {
                 Users user = usersRepository.findById(userId)
@@ -30,7 +33,7 @@ public class UsersController {
                 return ResponseEntity.ok().body(user);
         }
 
-        @PutMapping("/updateUser/{id}")
+        @PutMapping("/{id}")
         public ResponseEntity<Users> updateUser(@PathVariable(value = "id") Long userId,
                                                 @RequestBody Users userDetails) throws ResourceNotFoundException {
                 Users user = usersRepository.findById(userId)
@@ -43,15 +46,12 @@ public class UsersController {
                 return ResponseEntity.ok(updatedUser);
         }
 
-        @DeleteMapping("/deleteUser/{id}")
-        public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId)
-                throws ResourceNotFoundException {
-                Users user = usersRepository.findById(userId)
-                        .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
+        @DeleteMapping("/users/{id}")
+        public ResponseEntity deleteUser(@PathVariable(value = "id") Long userid) throws ResourceNotFoundException {
+                Users user = usersRepository.findById(userid)
+                        .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userid));
 
                 usersRepository.delete(user);
-                Map<String, Boolean> response = new HashMap<>();
-                response.put("deleted", Boolean.TRUE);
-                return response;
+                return ResponseEntity.ok().build();
         }
 }
