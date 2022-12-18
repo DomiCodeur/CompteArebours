@@ -15,18 +15,19 @@ public class UsersController {
         @Autowired
         private UsersRepository usersRepository;
 
-        @GetMapping
+
+        @GetMapping("/getAllUsers")
         public List<Users> getAllUsers() {
                 return usersRepository.findAll();
         }
 
-        @PostMapping
-        public Users createUser(@RequestBody Users user) {
+        @PostMapping("/createUser")
+        public Users createUser(@RequestBody Users user) throws ResourceNotFoundException {
                 return usersRepository.save(user);
         }
 
         @GetMapping("/{id}")
-        public ResponseEntity<Users> getUserById(@PathVariable(value = "id") Long userId)
+        public ResponseEntity<Users> getUserById(@PathVariable(value = "userId") long userId)
                 throws ResourceNotFoundException {
                 Users user = usersRepository.findById(userId)
                         .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
@@ -34,7 +35,7 @@ public class UsersController {
         }
 
         @PutMapping("/{id}")
-        public ResponseEntity<Users> updateUser(@PathVariable(value = "id") Long userId,
+        public ResponseEntity<Users> updateUser(@PathVariable(value = "id") long userId,
                                                 @RequestBody Users userDetails) throws ResourceNotFoundException {
                 Users user = usersRepository.findById(userId)
                         .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userId));
@@ -47,7 +48,7 @@ public class UsersController {
         }
 
         @DeleteMapping("/users/{id}")
-        public ResponseEntity deleteUser(@PathVariable(value = "id") Long userid) throws ResourceNotFoundException {
+        public ResponseEntity deleteUser(@PathVariable(value = "id") long userid) throws ResourceNotFoundException {
                 Users user = usersRepository.findById(userid)
                         .orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + userid));
 

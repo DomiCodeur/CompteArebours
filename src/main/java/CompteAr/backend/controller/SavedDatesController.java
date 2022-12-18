@@ -23,7 +23,7 @@ public class SavedDatesController {
     }
 
     @GetMapping("/getSavedDates/{id}")
-    public ResponseEntity<SavedDates> getSavedDatesById(@PathVariable(value = "id") Long savedDatesId)
+    public ResponseEntity<SavedDates> getSavedDatesById(@PathVariable(value = "id") long savedDatesId)
             throws ResourceNotFoundException {
         SavedDates savedDates = savedDatesRepository.findById(savedDatesId)
                 .orElseThrow(() -> new ResourceNotFoundException("SavedDates not found for this id :: " + savedDatesId));
@@ -31,7 +31,7 @@ public class SavedDatesController {
     }
 
     @PutMapping("/updateSavedDates/{id}")
-    public ResponseEntity<SavedDates> updateSavedDates(@PathVariable(value = "id") Long savedDatesId,
+    public ResponseEntity<SavedDates> updateSavedDates(@PathVariable(value = "id") long savedDatesId,
                                                        @RequestBody SavedDates savedDatesDetails) throws ResourceNotFoundException {
         SavedDates savedDates = savedDatesRepository.findById(savedDatesId)
                 .orElseThrow(() -> new ResourceNotFoundException("SavedDates not found for this id :: " + savedDatesId));
@@ -43,7 +43,7 @@ public class SavedDatesController {
     }
 
     @DeleteMapping("/deleteSavedDates/{id}")
-    public Map<String, Boolean> deleteSavedDates(@PathVariable(value = "id") Long savedDatesId)
+    public Map<String, Boolean> deleteSavedDates(@PathVariable(value = "id") long savedDatesId)
             throws ResourceNotFoundException {
         SavedDates savedDates = savedDatesRepository.findById(savedDatesId)
                 .orElseThrow(() -> new ResourceNotFoundException("SavedDates not found for this id :: " + savedDatesId));

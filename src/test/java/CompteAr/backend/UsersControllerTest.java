@@ -29,7 +29,7 @@ class UserControllerTest {
     private UsersController usersController;
 
     @Test
-    void testCreateUser() {
+    void testCreateUser() throws ResourceNotFoundException {
         // given
         Users user = new Users("John", "Doe", "john.doe@example.com");
         given(usersRepository.save(user)).willReturn(user);
