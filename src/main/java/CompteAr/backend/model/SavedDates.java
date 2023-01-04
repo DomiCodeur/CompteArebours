@@ -7,13 +7,13 @@ import java.util.Date;
 @Entity
 @Table(name = "saved_dates")
 public class SavedDates {
-    private long userId;
+    private Integer userId;
     private Date date;
     private String timeUnit;
     private String name;
-    private Long id;
 
-    public SavedDates(long userId, Date date, String timeUnit, String name) {
+
+    public SavedDates(Integer userId, Date date, String timeUnit, String name) {
         this.userId = userId;
         this.date = date;
         this.timeUnit = timeUnit;
@@ -29,7 +29,7 @@ public class SavedDates {
     public long getUserId() {
         return userId;
     }
-    public void setUserId(long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -57,12 +57,10 @@ public class SavedDates {
         this.name = name;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public void setId(Integer userId) {this.userId = userId;}
 
     @Id
-    public Long getId() {
-        return id;
+    public Integer getId() {
+        return userId;
     }
 }

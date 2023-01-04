@@ -4,11 +4,11 @@ import CompteAr.backend.controller.UsersController;
 import CompteAr.backend.exception.ResourceNotFoundException;
 import CompteAr.backend.model.Users;
 import CompteAr.backend.repository.UsersRepository;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
-class UserControllerTest {
+@RunWith(MockitoJUnitRunner.class)
+class UsersControllerTest {
 
     @Mock
     private UsersRepository usersRepository;
@@ -31,7 +31,7 @@ class UserControllerTest {
     @Test
     void testCreateUser() throws ResourceNotFoundException {
         // given
-        Users user = new Users("John", "Doe", "john.doe@example.com");
+        Users user = new Users("john.doe@example.com", "Doe" );
         given(usersRepository.save(user)).willReturn(user);
 
         // when
@@ -44,8 +44,8 @@ class UserControllerTest {
     @Test
     void testGetUser() throws ResourceNotFoundException {
         // given
-        long id = 1L;
-        Users user = new Users("John", "Doe", "john.doe@example.com");
+        Integer id = 1;
+        Users user = new Users("john.doe@example.com", "Doe" );
         user.setId(id);
         given(usersRepository.findById(id)).willReturn(Optional.of(user));
 
@@ -60,7 +60,7 @@ class UserControllerTest {
     @Test
     void testGetUser_NotFound() {
         // given
-        long id = 1L;
+        Integer id = 1;
         given(usersRepository.findById(id)).willReturn(Optional.empty());
 
         // when
@@ -73,8 +73,8 @@ class UserControllerTest {
     @Test
     void testUpdateUser() throws ResourceNotFoundException {
         // given
-        long id = 1L;
-        Users user = new Users("John", "Doe", "john.doe@example.com");
+        Integer id = 1;
+        Users user =new Users("john.doe@example.com", "Doe" );
         user.setId(id);
         given(usersRepository.findById    (id)).willReturn(Optional.of(user));
         given(usersRepository.save(user)).willReturn(user);
@@ -90,8 +90,8 @@ class UserControllerTest {
     @Test
     void testUpdateUser_NotFound() {
         // given
-        long id = 1L;
-        Users user = new Users("John", "Doe", "john.doe@example.com");
+        Integer id = 1;
+        Users user = new Users("john.doe@example.com", "Doe" );
         given(usersRepository.findById(id)).willReturn(Optional.empty());
 
         // when
@@ -104,8 +104,8 @@ class UserControllerTest {
     @Test
     void testDeleteUser() throws ResourceNotFoundException {
         // given
-        long id = 1L;
-        Users user = new Users("John", "Doe", "john.doe@example.com");
+        Integer id = 1;
+        Users user = new Users("john.doe@example.com", "Doe" );
         user.setId(id);
         given(usersRepository.findById(id)).willReturn(Optional.of(user));
 
@@ -120,7 +120,7 @@ class UserControllerTest {
     @Test
     void testDeleteUser_NotFound() {
         // given
-        long id = 1L;
+        Integer id = 1;
         given(usersRepository.findById(id)).willReturn(Optional.empty());
 
         // when
