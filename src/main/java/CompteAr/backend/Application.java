@@ -1,6 +1,5 @@
 package CompteAr.backend;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -9,8 +8,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties(AppProperties.class)
 public class Application {
 
-	@Autowired
-	private AppProperties appProperties;
+	private final AppProperties appProperties;
+
+	public Application(AppProperties appProperties) {
+		this.appProperties = appProperties;
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}

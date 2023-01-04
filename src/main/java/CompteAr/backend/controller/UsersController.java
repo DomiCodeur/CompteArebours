@@ -8,10 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Date;
-import java.sql.Timestamp;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
 @RequestMapping("/users")
@@ -67,7 +63,7 @@ public class UsersController {
                 return "TOKEN_HERE";
         }
         
-        @PostMapping("/login")
+/*        @PostMapping("/login")
         public ResponseEntity<Users> login(@RequestBody Users user) throws ResourceNotFoundException {
                         // Vérifiez si l'utilisateur existe en utilisant son email et son mot de passe
                 Users loggedInUser = usersRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
@@ -104,7 +100,7 @@ public class UsersController {
                         usersRepository.save(loggedInUser);
                         return ResponseEntity.ok().build();
                 }
-        }
+        }*/
 
 
 }
