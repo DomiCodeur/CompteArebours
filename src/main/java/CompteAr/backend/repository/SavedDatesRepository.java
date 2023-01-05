@@ -5,9 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SavedDatesRepository extends JpaRepository<SavedDates, Long> {
+public interface SavedDatesRepository extends JpaRepository<SavedDates, Integer> {
 
-        SavedDates findByUserId(long userId);
+        SavedDates findByUserId(Integer userId);
 
 
 }

@@ -2,37 +2,35 @@ package CompteAr.backend.model;
 
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "users")
 public class Users {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Integer id;
     private String username;
     private String password;
-
     private String email;
+    private String loginToken;
+    private Timestamp loginTokenExpiration;
 
-    public Users(String username, String password,String email) {
-        this.username = username;
-        this.password = password;
+    public Users(String email, String password) {
         this.email = email;
+        this.password = password;
     }
 
     public Users() {
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public long getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    @Column(name = "username", nullable = false)
     public String getUsername() {
         return username;
     }
@@ -48,7 +46,7 @@ public class Users {
         this.password = password;
     }
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     public String getEmail() {
         return email;
     }
@@ -56,5 +54,19 @@ public class Users {
         this.email = email;
     }
 
+    @Column(name = "login_token")
+    public String getLoginToken() {
+        return loginToken;
+    }
+    public void setLoginToken(String loginToken) {
+        this.loginToken = loginToken;
+    }
 
+    @Column(name = "login_token_expiration")
+    public Timestamp getLoginTokenExpiration() {
+        return loginTokenExpiration;
+    }
+    public void setLoginTokenExpiration(Timestamp loginTokenExpiration) {
+        this.loginTokenExpiration = loginTokenExpiration;
+    }
 }

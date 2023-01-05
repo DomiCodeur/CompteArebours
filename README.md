@@ -74,7 +74,7 @@ Toute contribution est la bienvenue ! Si vous souhaitez contribuer au projet, ve
 Ce projet est sous licence MIT. Vous pouvez utiliser, modifier et distribuer ce projet selon les termes de cette licence.
 
 ## Contact
-Si vous avez des questions ou des suggestions, n'hésitez pas à me contacter à l'adresse suivante : 
+Si vous avez des questions ou des suggestions, n'hésitez pas à me contacter via Github.
 
 
 
