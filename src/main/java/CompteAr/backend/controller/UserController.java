@@ -1,7 +1,7 @@
 package CompteAr.backend.controller;
 
-import CompteAr.backend.model.Users;
-import CompteAr.backend.repository.UsersRepository;
+import CompteAr.backend.model.User;
+import CompteAr.backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,39 +13,38 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
-public class UsersController {
-        private final UsersRepository usersRepository;
+public class UserController {
+        private final UserRepository userRepository;
 
         @GetMapping
-        public List<Users> getAllUsers() {
-                return usersRepository.findAll();
+        public List<User> getAllUsers() {
+                return userRepository.findAll();
         }
 
         @PostMapping
-        public ResponseEntity<Users> createUser(@RequestBody Users user) {
-                Optional<Users> existingUser = Optional.ofNullable(usersRepository.findByEmail(user.getEmail()));
+        public ResponseEntity<User> createUser(@RequestBody User user) {
+                Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
                 if (existingUser.isPresent()) {
                         return new ResponseEntity<>(HttpStatus.CONFLICT);
                 }
-                Users savedUser = usersRepository.save(user);
+                User savedUser = userRepository.save(user);
                 return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
         }
 
         @GetMapping("/{id}")
-        public ResponseEntity<Users> getUserById(@PathVariable Integer id) {
-                return usersRepository.findById(id)
+        public ResponseEntity<User> getUserById(@PathVariable Integer id) {
+                return userRepository.findById(id)
                         .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }
 
         @PutMapping("/{id}")
-        public ResponseEntity<Users> updateUser(@PathVariable Integer id, @RequestBody Users userDetails) {
-                return usersRepository.findById(id)
+        public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
+                return userRepository.findById(id)
                         .map(user -> {
-                                user.setUsername(userDetails.getUsername());
                                 user.setPassword(userDetails.getPassword());
                                 user.setEmail(userDetails.getEmail());
-                                final Users updatedUser = usersRepository.save(user);
+                                final User updatedUser = userRepository.save(user);
                                 return new ResponseEntity<>(updatedUser, HttpStatus.OK);
                         })
                         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -53,8 +52,8 @@ public class UsersController {
 
         @DeleteMapping("/{id}")
         public ResponseEntity deleteUser(@PathVariable Integer id) {
-                if (usersRepository.existsById(id)) {
-                        usersRepository.deleteById(id);
+                if (userRepository.existsById(id)) {
+                        userRepository.deleteById(id);
                         return new ResponseEntity<>(HttpStatus.OK);
                 } else {
                         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

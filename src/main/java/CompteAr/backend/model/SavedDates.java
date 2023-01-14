@@ -14,7 +14,7 @@ public class SavedDates {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Users user;
+    private User user;
 
     @Id
     @Column(name = "user_id", nullable = false)
