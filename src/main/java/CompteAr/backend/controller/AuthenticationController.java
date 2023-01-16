@@ -1,5 +1,9 @@
-package CompteAr.backend.auth;
+package CompteAr.backend.controller;
 
+import CompteAr.backend.model.AuthenticationRequest;
+import CompteAr.backend.model.AuthenticationResponse;
+import CompteAr.backend.model.RegisterRequest;
+import CompteAr.backend.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,8 +1,6 @@
-package CompteAr.backend.auth;
+package CompteAr.backend.service;
 
-import CompteAr.backend.config.JwtService;
-import CompteAr.backend.model.Role;
-import CompteAr.backend.model.User;
+import CompteAr.backend.model.*;
 import CompteAr.backend.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;

@@ -3,6 +3,7 @@ package CompteAr.backend.controller;
 import CompteAr.backend.model.User;
 import CompteAr.backend.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,9 @@ import java.util.Optional;
 @RequestMapping("/users")
 @AllArgsConstructor
 public class UserController {
-        private final UserRepository userRepository;
+
+        @Autowired
+        private  UserRepository userRepository;
 
         @GetMapping
         public List<User> getAllUsers() {
