@@ -3,6 +3,7 @@ package CompteAr.backend.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import CompteAr.backend.model.*;
@@ -46,8 +47,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Integer id) {
+    public ResponseEntity<Void> deleteUser(Integer id) {
         userRepository.deleteById(id);
+        return null;
     }
 
     @Override

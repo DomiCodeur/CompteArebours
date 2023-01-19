@@ -6,8 +6,11 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
+import CompteAr.backend.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +29,7 @@ import CompteAr.backend.repository.UserRepository;
 public class UserControllerTest {
 
     @Mock
-    private UserRepository userRepository;
+    private UserService userService;
 
     @InjectMocks
     private UserController userController;
@@ -44,8 +47,8 @@ public class UserControllerTest {
         user.setPassword("password");
         user.setRole(Role.USER);
 
-        when(userRepository.findByEmail(eq("email"))).thenReturn(Optional.empty());
-        given(userRepository.save(user)).willReturn(user);
+        when(userService.findByEmail(eq("email"))).thenReturn(Optional.empty());
+        given(userService.save(user)).willReturn(user);
 
 
         // when
@@ -71,7 +74,7 @@ public class UserControllerTest {
         user.setPassword("password");
         user.setRole(Role.USER);
 
-        when(userRepository.findByEmail(eq("email"))).thenReturn(Optional.of(user));
+        when(userService.findByEmail(eq("email"))).thenReturn(Optional.of(user));
 
         // when
         ResponseEntity<User> result = userController.createUser(user);
@@ -82,5 +85,123 @@ public class UserControllerTest {
             assertThat(r.getBody()).isNull();
         });
 
+    }
+
+    @Test
+    public void testGetUserByIdOk() {
+        // given
+        User user = new User();
+        user.setId(1);
+        user.setEmail("email");
+        user.setPassword("password");
+        user.setRole(Role.USER);
+        when(userService.findById(1)).thenReturn(Optional.of(user));
+
+        // when
+        ResponseEntity<User> result = userController.getUserById(1);
+
+        // then
+        assertThat(result).isNotNull().isInstanceOfSatisfying(ResponseEntity.class, r -> {
+            assertThat(r.getStatusCode()).isNotNull().isEqualTo(HttpStatus.OK);
+            assertThat(r.getBody()).isNotNull().isInstanceOfSatisfying(User.class, u -> {
+                assertThat(u.getId()).isNotNull().isEqualTo(1);
+                assertThat(u.getEmail()).isNotNull().isEqualTo("email");
+                assertThat(u.getPassword()).isNotNull().isEqualTo("password");
+                assertThat(u.getRole()).isNotNull().isEqualTo(Role.USER);
+            });
+        });
+    }
+
+    @Test
+    public void testGetUserByIdNotFound() {
+        // given
+        when(userService.findById
+        (1)).thenReturn(Optional.empty());
+
+        // when
+        ResponseEntity<User> result = userController.getUserById(1);
+
+        // then
+        assertThat(result).isNotNull().isInstanceOfSatisfying(ResponseEntity.class, r -> {
+            assertThat(r.getStatusCode()).isNotNull().isEqualTo(HttpStatus.NOT_FOUND);
+            assertThat(r.getBody()).isNull();
+        });
+    }
+
+    @Test
+    public void testUpdateUserOk() {
+        // given
+        User user = new User();
+        user.setId(1);
+        user.setEmail("email");
+        user.setPassword("password");
+        user.setRole(Role.USER);
+        when(userService.findById(1)).thenReturn(Optional.of(user));
+        when(userService.save(user)).thenReturn(user);
+
+        // when
+        ResponseEntity<User> result = userController.updateUser(1, user);
+
+        // then
+        assertThat(result).isNotNull().isInstanceOfSatisfying(ResponseEntity.class, r -> {
+            assertThat(r.getStatusCode()).isNotNull().isEqualTo(HttpStatus.OK);
+            assertThat(r.getBody()).isNotNull().isInstanceOfSatisfying(User.class, u -> {
+                assertThat(u.getId()).isNotNull().isEqualTo(1);
+                assertThat(u.getEmail()).isNotNull().isEqualTo("email");
+                assertThat(u.getPassword()).isNotNull().isEqualTo("password");
+                assertThat(u.getRole()).isNotNull().isEqualTo(Role.USER);
+            });
+        });
+    }
+
+    @Test
+    public void testUpdateUserNotFound() {
+        // given
+        User user = new User();
+        user.setId(1);
+        user.setEmail("email");
+        user.setPassword("password");
+        user.setRole(Role.USER);
+        when(userService.findById(1)).thenReturn(Optional.empty());
+
+        // when
+        ResponseEntity<User> result = userController.updateUser(1, user);
+
+        // then
+        assertThat(result).isNotNull().isInstanceOfSatisfying(ResponseEntity.class, r -> {
+            assertThat(r.getStatusCode()).isNotNull().isEqualTo(HttpStatus.NOT_FOUND);
+            assertThat(r.getBody()).isNull();
+        });
+    }
+
+
+    @Test
+    public void testDeleteUserOk() {
+        // given
+        when(userService.findById(1)).thenReturn(Optional.of(new User()));
+
+        // when
+        ResponseEntity<Void> result = userController.deleteUser(1);
+
+        // then
+        assertThat(result).isNotNull().isInstanceOfSatisfying(ResponseEntity.class, r -> {
+            assertThat(r.getStatusCode()).isNotNull().isEqualTo(HttpStatus.NO_CONTENT);
+            assertThat(r.getBody()).isNull();
+        });
+    }
+
+    @Test
+    public void testDeleteUserNotFound() {
+        // given
+        when(userService.findById(1)).thenReturn(Optional.empty());
+
+        // when
+        ResponseEntity<Void> result = userController.deleteUser(1);
+
+        // then
+        assertThat(result).isNotNull().isInstanceOfSatisfying(ResponseEntity.class, r -> {
+            assertThat(r.getStatusCode()).isNotNull().isEqualTo(HttpStatus.NOT_FOUND);
+            assertThat(r.getBody()).isNull();
+        });
     }
 }
