@@ -5,9 +5,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import CompteAr.backend.service.UserService;
@@ -23,7 +20,6 @@ import org.springframework.http.ResponseEntity;
 import CompteAr.backend.controller.UserController;
 import CompteAr.backend.model.Role;
 import CompteAr.backend.model.User;
-import CompteAr.backend.repository.UserRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {
@@ -40,7 +36,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testCreateUserOk()  throws IOException {
+    public void testCreateUserOk() {
         // given
         User user = new User();
         user.setEmail("email");
@@ -67,7 +63,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testCreateUserConflict()  throws IOException {
+    public void testCreateUserConflict() {
         // given
         User user = new User();
         user.setEmail("email");

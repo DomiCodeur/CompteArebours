@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 public class AppProperties {
 
     @Value("${spring.datasource.username}")
-    private String username;
-    private String description;
+    private String DB_username;
+
+    @Value("${spring.datasource.password}")
+    private String DB_password;
 }
