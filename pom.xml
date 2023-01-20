@@ -97,7 +97,11 @@
 			<version>1.16.22</version>
 			<scope>provided</scope>
 		</dependency>
-    </dependencies>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
