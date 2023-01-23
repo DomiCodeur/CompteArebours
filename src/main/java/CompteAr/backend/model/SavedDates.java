@@ -12,10 +12,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class SavedDates {
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
     @Id
     @Column(name = "user_id", nullable = false)
     private Integer userId;
