@@ -27,30 +27,8 @@ Pour exécuter ce projet, vous aurez besoin de :
 
 
 ## Configuration
-1. Créez une base de données PostgreSQL et exécutez les commandes SQL suivantes pour créer les tables nécessaires :
-``` sql
-CREATE TABLE users (
-id SERIAL PRIMARY KEY,
-username VARCHAR(255) UNIQUE NOT NULL,
-password VARCHAR(255) NOT NULL,
-time_unit VARCHAR(255) NOT NULL
-);
-
-CREATE TABLE saved_dates (
-id SERIAL PRIMARY KEY,
-user_id INTEGER REFERENCES users(id),
-date DATE NOT NULL,
-name VARCHAR(255) NOT NULL
-);
-
-ALTER TABLE users ADD CONSTRAINT valid_time_unit CHECK (time_unit IN ('jours', 'mois', 'années', 'dodos'));
-
-CREATE INDEX idx_saved_dates_user_id ON saved_dates (user_id);
-``` 
-
-2. Modifiez les paramètres de connexion à la base de données dans le fichier src/main/resources/application.properties en indiquant les informations de votre serveur PostgreSQL (nom d'utilisateur, mot de passe, etc.).
-
-3. Buildez et exécutez le projet avec Maven :
+1.Modifiez les paramètres de connexion à la base de données dans le fichier src/main/resources/application.properties en indiquant les informations de votre serveur PostgreSQL (nom d'utilisateur, mot de passe, etc.).
+2. Buildez et exécutez le projet avec Maven :
 ``` bash
 mvn clean package
 java -jar target/CompteArebours-0.0.1-SNAPSHOT.jar
