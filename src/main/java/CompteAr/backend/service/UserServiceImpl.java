@@ -8,15 +8,13 @@ import org.springframework.stereotype.Service;
 
 import CompteAr.backend.model.*;
 import CompteAr.backend.repository.*;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public List<User> getAllUsers() {
@@ -31,6 +29,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<User> findById(Integer id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return false;
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+
+    }
+
+    @Override
+    public User save(User user) {
+        return user;
     }
 
     @Override
@@ -51,28 +69,4 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
         return null;
     }
-
-    @Override
-    public Optional<User> findById(Integer id) {
-        return userRepository.findById(id);
-    }
-
-    @Override
-    public boolean existsById(Integer id) {
-        return userRepository.existsById(id);
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        userRepository.deleteById(id);
-    }
-
-    @Override
-    public User save(User user) {
-        return userRepository.save(user);
-    }
-
 }
-
-
-

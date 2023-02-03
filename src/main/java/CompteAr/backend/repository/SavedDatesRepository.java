@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SavedDatesRepository extends JpaRepository<SavedDates, Integer> {
 
-        SavedDates findByUserId(Integer userId);
-
+        SavedDates findByUserIdAndName(Integer userId, String name);
 
 }

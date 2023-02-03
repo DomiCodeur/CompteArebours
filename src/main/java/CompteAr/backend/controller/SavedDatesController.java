@@ -27,17 +27,27 @@ public class SavedDatesController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
+    public ResponseEntity<SavedDates> createSavedDates(@PathVariable Integer id, @RequestBody SavedDates savedDates) {
+        savedDates.setUserId(id);
+        SavedDates savedDate = savedDatesRepository.save(savedDates);
+        return new ResponseEntity<>(savedDate, HttpStatus.CREATED);
+    }
+
+
+/*    @PutMapping("/{id}")
     public ResponseEntity<SavedDates> updateSavedDates(@PathVariable Integer id, @RequestBody SavedDates savedDatesDetails) {
-        return savedDatesRepository.findById(id)
+        return savedDatesRepository.findByUserIdAndName(id, savedDatesDetails.getName())
                 .map(savedDates -> {
                     savedDates.setDate(savedDatesDetails.getDate());
                     savedDates.setName(savedDatesDetails.getName());
+                    savedDates.setTimeUnit(savedDatesDetails.getTimeUnit());
                     final SavedDates updatedSavedDates = savedDatesRepository.save(savedDates);
                     return new ResponseEntity<>(updatedSavedDates, HttpStatus.OK);
                 })
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+    }*/
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSavedDates(@PathVariable Integer id) {
