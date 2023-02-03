@@ -28,8 +28,7 @@ Pour exécuter ce projet, vous aurez besoin de :
 
 ## Configuration
 1.Modifiez les paramètres de connexion à la base de données dans le fichier src/main/resources/application.properties en indiquant les informations de votre serveur PostgreSQL (nom d'utilisateur, mot de passe, etc.).
-
-3. Buildez et exécutez le projet avec Maven :
+2. Buildez et exécutez le projet avec Maven :
 ``` bash
 mvn clean package
 java -jar target/CompteArebours-0.0.1-SNAPSHOT.jar
