@@ -25,37 +25,43 @@ public class UserController {
         @Autowired
         private AuthenticationService service;
 
+
+
         @GetMapping
         public List<User> getAllUsers() {
                 return userService.getAllUsers();
         }
 
-        @PostMapping
-        public ResponseEntity<CreateUser> createUser(@RequestBody User user) {
+        @PostMapping("/createUser")
+        public ResponseEntity<UserInfo> createUser(@RequestBody User user) {
                 Optional<User> existingUser = userService.findByEmail(user.getEmail());
                 if (existingUser.isPresent()) {
                         return new ResponseEntity<>(HttpStatus.CONFLICT);
                 }
                 User savedUser = userService.save(user);
+                savedUser.setRole(Role.USER);
+                userService.save(savedUser);
                 RegisterRequest request = new RegisterRequest();
                 request.setEmail(savedUser.getEmail());
                 request.setPassword(savedUser.getPassword());
-                String token = service.register(request);
-                CreateUser createUser = new CreateUser(user, token);
-                return new ResponseEntity<>(createUser, HttpStatus.CREATED);
+                request.setSignInMethod(savedUser.getSignInMethod());
+                request.setTimeUnit("dodos");
+                UserInfo userInfo = service.register(request);
+                return new ResponseEntity<>(userInfo, HttpStatus.CREATED);
         }
 
         @PostMapping("/login")
-        public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
+        public ResponseEntity<UserInfo> login(@RequestBody AuthenticationRequest request) {
                 AuthenticationResponse response = service.authenticate(request);
                 User user = userService.findByEmail(request.getEmail())
                         .orElse(null);
                 if (user == null) {
                         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
-                response.setUserId(user.getId());
-                return ResponseEntity.ok(response);
+                UserInfo userInfo = new UserInfo(user.getId(), user.getEmail(), user.getTimeUnit(), response.getToken());
+                return ResponseEntity.ok(userInfo);
         }
+
 
         @GetMapping("/{id}")
         public ResponseEntity<User> getUserById(@PathVariable Integer id) {

@@ -19,9 +19,6 @@ public class SavedDates {
     @Column(name = "date", nullable = false)
     private Date date;
 
-    @Column(name = "time_unit", nullable = false)
-    private String timeUnit;
-
     @Column(name = "name", nullable = false)
     private String name;
 }

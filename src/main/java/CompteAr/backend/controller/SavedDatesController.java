@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/dates")
@@ -21,11 +24,12 @@ public class SavedDatesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SavedDates> getSavedDatesById(@PathVariable Integer id) {
+    public ResponseEntity<List<SavedDates>> getSavedDatesById(@PathVariable Integer id) {
         return savedDatesRepository.findById(id)
-                .map(savedDates -> new ResponseEntity<>(savedDates, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                .map(savedDates -> new ResponseEntity<>(Collections.singletonList(savedDates), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND));
     }
+
 
     @PostMapping("/{id}")
     public ResponseEntity<SavedDates> createSavedDates(@PathVariable Integer id, @RequestBody SavedDates savedDates) {
