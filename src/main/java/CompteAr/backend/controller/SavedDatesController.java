@@ -41,9 +41,9 @@ public class SavedDatesController {
     }
 
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteSavedDates(@PathVariable Integer userId) {
-        return savedDatesRepository.findById(userId)
+    @DeleteMapping("/{userId}/{dateId}")
+    public ResponseEntity<Void> deleteSavedDate(@PathVariable Integer userId, @PathVariable Integer dateId) {
+        return savedDatesRepository.findByIdAndUserId(dateId, userId)
                 .map(savedDates -> {
                     savedDatesRepository.delete(savedDates);
                     return new ResponseEntity<Void>(HttpStatus.OK);
