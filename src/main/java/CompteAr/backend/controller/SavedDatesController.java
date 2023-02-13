@@ -23,39 +23,27 @@ public class SavedDatesController {
         return savedDatesRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<SavedDates>> getSavedDatesById(@PathVariable Integer id) {
-        return savedDatesRepository.findById(id)
-                .map(savedDates -> new ResponseEntity<>(Collections.singletonList(savedDates), HttpStatus.OK))
-                .orElse(new ResponseEntity<>(Collections.emptyList(), HttpStatus.NOT_FOUND));
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<SavedDates>> getSavedDatesByUserId(@PathVariable Integer userId) {
+        List<SavedDates> savedDates = savedDatesRepository.findByUserId(userId);
+        if (!savedDates.isEmpty()) {
+            return new ResponseEntity<>(savedDates, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-
-    @PostMapping("/{id}")
-    public ResponseEntity<SavedDates> createSavedDates(@PathVariable Integer id, @RequestBody SavedDates savedDates) {
-        savedDates.setUserId(id);
+    @PostMapping("/{userId}")
+    public ResponseEntity<SavedDates> createSavedDates(@PathVariable Integer userId, @RequestBody SavedDates savedDates) {
+        savedDates.setUserId(userId);
         SavedDates savedDate = savedDatesRepository.save(savedDates);
         return new ResponseEntity<>(savedDate, HttpStatus.CREATED);
     }
 
 
-/*    @PutMapping("/{id}")
-    public ResponseEntity<SavedDates> updateSavedDates(@PathVariable Integer id, @RequestBody SavedDates savedDatesDetails) {
-        return savedDatesRepository.findByUserIdAndName(id, savedDatesDetails.getName())
-                .map(savedDates -> {
-                    savedDates.setDate(savedDatesDetails.getDate());
-                    savedDates.setName(savedDatesDetails.getName());
-                    savedDates.setTimeUnit(savedDatesDetails.getTimeUnit());
-                    final SavedDates updatedSavedDates = savedDatesRepository.save(savedDates);
-                    return new ResponseEntity<>(updatedSavedDates, HttpStatus.OK);
-                })
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }*/
-
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSavedDates(@PathVariable Integer id) {
-        return savedDatesRepository.findById(id)
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteSavedDates(@PathVariable Integer userId) {
+        return savedDatesRepository.findById(userId)
                 .map(savedDates -> {
                     savedDatesRepository.delete(savedDates);
                     return new ResponseEntity<Void>(HttpStatus.OK);

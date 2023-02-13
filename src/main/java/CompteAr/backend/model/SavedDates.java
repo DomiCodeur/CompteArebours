@@ -13,6 +13,10 @@ import java.util.Date;
 public class SavedDates {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
+
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 

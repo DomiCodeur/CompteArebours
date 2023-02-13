@@ -50,17 +50,24 @@ public class UserController {
                 return new ResponseEntity<>(userInfo, HttpStatus.CREATED);
         }
 
+
         @PostMapping("/login")
         public ResponseEntity<UserInfo> login(@RequestBody AuthenticationRequest request) {
-                AuthenticationResponse response = service.authenticate(request);
                 User user = userService.findByEmail(request.getEmail())
                         .orElse(null);
                 if (user == null) {
-                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                        return new ResponseEntity<>(new UserInfo(null, null, null, null, "Email inconnu"), HttpStatus.NOT_FOUND);
                 }
-                UserInfo userInfo = new UserInfo(user.getId(), user.getEmail(), user.getTimeUnit(), response.getToken());
-                return ResponseEntity.ok(userInfo);
+
+                try {
+                        AuthenticationResponse response = service.authenticate(request);
+                        UserInfo userInfo = new UserInfo(user.getId(), user.getEmail(), user.getTimeUnit(), response.getToken(), null);
+                        return ResponseEntity.ok(userInfo);
+                } catch (AuthenticationException ex) {
+                        return new ResponseEntity<>(new UserInfo(null, null, null, null, "Erreur de mot de passe"), HttpStatus.UNAUTHORIZED);
+                }
         }
+
 
 
         @GetMapping("/{id}")

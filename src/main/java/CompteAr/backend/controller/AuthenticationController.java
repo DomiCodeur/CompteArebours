@@ -1,5 +1,6 @@
 package CompteAr.backend.controller;
 
+import CompteAr.backend.model.AuthenticationException;
 import CompteAr.backend.model.AuthenticationRequest;
 import CompteAr.backend.model.AuthenticationResponse;
 import CompteAr.backend.model.RegisterRequest;
@@ -21,7 +22,7 @@ public class AuthenticationController {
   @PostMapping("/authenticate")
   public ResponseEntity<AuthenticationResponse> authenticate(
       @RequestBody AuthenticationRequest request
-  ) {
+  ) throws AuthenticationException {
     return ResponseEntity.ok(service.authenticate(request));
   }
 
