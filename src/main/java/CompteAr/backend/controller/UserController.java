@@ -1,7 +1,9 @@
 package CompteAr.backend.controller;
 
-import CompteAr.backend.model.User;
+import CompteAr.backend.model.*;
 import CompteAr.backend.repository.UserRepository;
+import CompteAr.backend.service.AuthenticationService;
+import CompteAr.backend.service.JwtService;
 import CompteAr.backend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +22,50 @@ public class UserController {
         @Autowired
         private  UserService userService;
 
+        @Autowired
+        private AuthenticationService service;
+
         @GetMapping
         public List<User> getAllUsers() {
                 return userService.getAllUsers();
         }
 
-        @PostMapping
-        public ResponseEntity<User> createUser(@RequestBody User user) {
+        @PostMapping("/createUser")
+        public ResponseEntity<UserInfo> createUser(@RequestBody User user) {
                 Optional<User> existingUser = userService.findByEmail(user.getEmail());
                 if (existingUser.isPresent()) {
                         return new ResponseEntity<>(HttpStatus.CONFLICT);
                 }
                 User savedUser = userService.save(user);
-                return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+                savedUser.setRole(Role.USER);
+                userService.save(savedUser);
+                RegisterRequest request = new RegisterRequest();
+                request.setEmail(savedUser.getEmail());
+                request.setPassword(savedUser.getPassword());
+                request.setSignInMethod(savedUser.getSignInMethod());
+                request.setTimeUnit("dodos");
+                UserInfo userInfo = service.register(request);
+                return new ResponseEntity<>(userInfo, HttpStatus.CREATED);
         }
+
+
+        @PostMapping("/login")
+        public ResponseEntity<UserInfo> login(@RequestBody AuthenticationRequest request) {
+                User user = userService.findByEmail(request.getEmail())
+                        .orElse(null);
+                if (user == null) {
+                        return new ResponseEntity<>(new UserInfo(null, null, null, null, "Email inconnu"), HttpStatus.NOT_FOUND);
+                }
+
+                try {
+                        AuthenticationResponse response = service.authenticate(request);
+                        UserInfo userInfo = new UserInfo(user.getId(), user.getEmail(), user.getTimeUnit(), response.getToken(), null);
+                        return new ResponseEntity<>(userInfo, HttpStatus.OK);
+                } catch (AuthenticationException ex) {
+                        return new ResponseEntity<>(new UserInfo(null, null, null, null, "Erreur de mot de passe"), HttpStatus.UNAUTHORIZED);
+                }
+        }
+
 
         @GetMapping("/{id}")
         public ResponseEntity<User> getUserById(@PathVariable Integer id) {
@@ -63,7 +95,5 @@ public class UserController {
                         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
         }
-
-
 
 }

@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/dates")
@@ -20,28 +23,27 @@ public class SavedDatesController {
         return savedDatesRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SavedDates> getSavedDatesById(@PathVariable Integer id) {
-        return savedDatesRepository.findById(id)
-                .map(savedDates -> new ResponseEntity<>(savedDates, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<SavedDates>> getSavedDatesByUserId(@PathVariable Integer userId) {
+        List<SavedDates> savedDates = savedDatesRepository.findByUserId(userId);
+        if (!savedDates.isEmpty()) {
+            return new ResponseEntity<>(savedDates, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<SavedDates> updateSavedDates(@PathVariable Integer id, @RequestBody SavedDates savedDatesDetails) {
-        return savedDatesRepository.findById(id)
-                .map(savedDates -> {
-                    savedDates.setDate(savedDatesDetails.getDate());
-                    savedDates.setName(savedDatesDetails.getName());
-                    final SavedDates updatedSavedDates = savedDatesRepository.save(savedDates);
-                    return new ResponseEntity<>(updatedSavedDates, HttpStatus.OK);
-                })
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @PostMapping("/{userId}")
+    public ResponseEntity<SavedDates> createSavedDates(@PathVariable Integer userId, @RequestBody SavedDates savedDates) {
+        savedDates.setUserId(userId);
+        SavedDates savedDate = savedDatesRepository.save(savedDates);
+        return new ResponseEntity<>(savedDate, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSavedDates(@PathVariable Integer id) {
-        return savedDatesRepository.findById(id)
+
+    @DeleteMapping("/{userId}/{dateId}")
+    public ResponseEntity<Void> deleteSavedDate(@PathVariable Integer userId, @PathVariable Integer dateId) {
+        return savedDatesRepository.findByIdAndUserId(dateId, userId)
                 .map(savedDates -> {
                     savedDatesRepository.delete(savedDates);
                     return new ResponseEntity<Void>(HttpStatus.OK);

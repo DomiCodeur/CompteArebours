@@ -23,6 +23,10 @@ public class User implements UserDetails {
     private String email;
     private String password;
 
+    private String signInMethod;
+
+    private String timeUnit;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -40,6 +44,7 @@ public class User implements UserDetails {
     public String getUsername() {
         return email;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
