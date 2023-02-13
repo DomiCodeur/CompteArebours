@@ -23,7 +23,7 @@ public class SavedDatesController {
         return savedDatesRepository.findAll();
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<SavedDates>> getSavedDatesByUserId(@PathVariable Integer userId) {
         List<SavedDates> savedDates = savedDatesRepository.findByUserId(userId);
         if (!savedDates.isEmpty()) {

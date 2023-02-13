@@ -19,7 +19,7 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
 
   public UserInfo register(RegisterRequest request) {
-    var user = User.builder()
+    User user = User.builder()
             .email(request.getEmail())
             .password(passwordEncoder.encode(request.getPassword()))
             .signInMethod(request.getSignInMethod())
@@ -27,7 +27,7 @@ public class AuthenticationService {
             .role(Role.USER)
             .build();
     repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
+    String jwtToken = jwtService.generateToken(user);
     return UserInfo.builder()
             .id(user.getId())
             .email(user.getEmail())
@@ -44,16 +44,14 @@ public class AuthenticationService {
                       request.getPassword()
               )
       );
-      var user = repository.findByEmail(request.getEmail())
-              .orElseThrow();
-      var jwtToken = jwtService.generateToken(user);
-      return AuthenticationResponse.builder()
-              .token(jwtToken)
-              .userId(user.getId())
-              .build();
     } catch (BadCredentialsException e) {
-      throw new AuthenticationException("Invalid email or password");
+      throw new AuthenticationException("Email ou mot de passe incorrect");
     }
+
+    User user = repository.findByEmail(request.getEmail())
+            .orElseThrow(() -> new AuthenticationException("Email ou mot de passe incorrect"));
+    String jwtToken = jwtService.generateToken(user);
+    return new AuthenticationResponse(jwtToken, user.getId(), "");
   }
 
 };

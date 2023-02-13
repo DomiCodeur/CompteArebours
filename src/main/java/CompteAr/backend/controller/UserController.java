@@ -25,8 +25,6 @@ public class UserController {
         @Autowired
         private AuthenticationService service;
 
-
-
         @GetMapping
         public List<User> getAllUsers() {
                 return userService.getAllUsers();
@@ -62,12 +60,11 @@ public class UserController {
                 try {
                         AuthenticationResponse response = service.authenticate(request);
                         UserInfo userInfo = new UserInfo(user.getId(), user.getEmail(), user.getTimeUnit(), response.getToken(), null);
-                        return ResponseEntity.ok(userInfo);
+                        return new ResponseEntity<>(userInfo, HttpStatus.OK);
                 } catch (AuthenticationException ex) {
                         return new ResponseEntity<>(new UserInfo(null, null, null, null, "Erreur de mot de passe"), HttpStatus.UNAUTHORIZED);
                 }
         }
-
 
 
         @GetMapping("/{id}")
@@ -98,7 +95,5 @@ public class UserController {
                         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
         }
-
-
 
 }
