@@ -10,8 +10,11 @@ import java.util.Optional;
 @Repository
 public interface SavedDatesRepository extends JpaRepository<SavedDates, Integer> {
 
-        SavedDates findByUserIdAndName(Integer userId, String name);
+    SavedDates findByUserIdAndName(Integer userId, String name);
 
     List<SavedDates> findByUserId(Integer userId);
 
+    void delete(SavedDates savedDates);
+
+    Optional<SavedDates> findByIdAndUserId(Integer dateId, Integer userId);
 }
