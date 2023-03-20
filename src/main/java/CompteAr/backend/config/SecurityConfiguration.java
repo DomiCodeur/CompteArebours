@@ -20,12 +20,14 @@ public class SecurityConfiguration {
   private final AuthenticationProvider authenticationProvider;
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity http)  throws Exception {
     http
         .csrf()
         .disable()
         .authorizeHttpRequests()
-        .requestMatchers(HttpMethod.POST, "/users/**", "/api/v1/auth/**")
+        .requestMatchers(HttpMethod.POST, "/users/**", "/api/v1/auth/**","/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**")
+        .permitAll()
+        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**")
         .permitAll()
         .anyRequest()
         .authenticated()
