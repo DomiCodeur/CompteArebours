@@ -1,5 +1,6 @@
 package CompteAr.backend.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,8 +27,9 @@ public class User implements UserDetails {
     @GeneratedValue
     private Integer id;
 
-    @NotBlank(message = "Le nom d'utilisateur ne doit pas être vide")
-    @Length(min = 3, max = 20, message = "Le nom d'utilisateur doit être entre 3 et 20 caractères")
+
+    @Length(min = 3, max = 20, message = "Si complété, le nom d'utilisateur doit être entre 3 et 20 caractères")
+    @Nullable
     private String username;
 
     @NotBlank(message = "L'email ne doit pas être vide")
@@ -35,13 +37,12 @@ public class User implements UserDetails {
     private String email;
 
     @NotBlank(message = "Le mot de passe ne doit pas être vide")
-    @Length(min = 8, max = 50, message = "Le mot de passe doit être entre 8 et 50 caractères")
+    @Length(min = 8, max = 70, message = "Le mot de passe doit être entre 8 et 15 caractères")
     private String password;
 
-    @NotBlank(message = "Le mode de connexion ne doit pas être vide")
+
     private String signInMethod;
 
-    @NotBlank(message = "L'unité de temps ne doit pas être vide")
     private String timeUnit;
 
     @Enumerated(EnumType.STRING)
