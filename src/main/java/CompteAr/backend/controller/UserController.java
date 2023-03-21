@@ -9,7 +9,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +20,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/users")
 @AllArgsConstructor
+@Validated
 public class UserController {
 
         @Autowired
@@ -31,7 +35,7 @@ public class UserController {
         }
 
         @PostMapping("/createUser")
-        public ResponseEntity<UserInfo> createUser(@RequestBody User user) {
+        public ResponseEntity<UserInfo> createUser(@Valid @RequestBody User user) {
                 Optional<User> existingUser = userService.findByEmail(user.getEmail());
                 if (existingUser.isPresent()) {
                         return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -50,7 +54,7 @@ public class UserController {
 
 
         @PostMapping("/login")
-        public ResponseEntity<UserInfo> login(@RequestBody AuthenticationRequest request) {
+        public ResponseEntity<UserInfo> login(@Valid @RequestBody AuthenticationRequest request) {
                 User user = userService.findByEmail(request.getEmail())
                         .orElse(null);
                 if (user == null) {
@@ -75,7 +79,7 @@ public class UserController {
         }
 
         @PutMapping("/{id}")
-        public ResponseEntity<User> updateUser(@PathVariable Integer id, @RequestBody User userDetails) {
+        public ResponseEntity<User> updateUser(@PathVariable Integer id,@Valid  @RequestBody User userDetails) {
                 return userService.findById(id)
                         .map(user -> {
                                 user.setPassword(userDetails.getPassword());
