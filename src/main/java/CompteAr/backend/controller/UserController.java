@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -28,11 +29,6 @@ public class UserController {
 
         @Autowired
         private AuthenticationService service;
-
-        @GetMapping
-        public List<User> getAllUsers() {
-                return userService.getAllUsers();
-        }
 
         @PostMapping("/createUser")
         public ResponseEntity<UserInfo> createUser(@Valid @RequestBody User user) {
@@ -70,7 +66,14 @@ public class UserController {
                 }
         }
 
+        @PreAuthorize("isAuthenticated()")
+        @GetMapping
+        public List<User> getAllUsers() {
+                return userService.getAllUsers();
+        }
 
+
+        @PreAuthorize("isAuthenticated()")
         @GetMapping("/{id}")
         public ResponseEntity<User> getUserById(@PathVariable Integer id) {
                 return userService.findById(id)
@@ -78,6 +81,7 @@ public class UserController {
                         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }
 
+        @PreAuthorize("isAuthenticated()")
         @PutMapping("/{id}")
         public ResponseEntity<User> updateUser(@PathVariable Integer id,@Valid  @RequestBody User userDetails) {
                 return userService.findById(id)
@@ -89,7 +93,7 @@ public class UserController {
                         })
                         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         }
-
+        @PreAuthorize("isAuthenticated()")
         @DeleteMapping("/{id}")
         public ResponseEntity deleteUser(@PathVariable Integer id) {
                 if (userService.findById(id).isPresent()) {
