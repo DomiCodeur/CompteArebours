@@ -1,12 +1,11 @@
-package CompteAr.backend;
+package compteAr.backend;
 
-import CompteAr.backend.config.OpenAPIConfig;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
+
+import compteAr.backend.config.OpenAPIConfig;
 
 @SpringBootApplication
 @Import(OpenAPIConfig.class)

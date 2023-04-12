@@ -1,4 +1,4 @@
-package CompteAr.backend;
+package compteAr.backend;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Optional;
 
-import CompteAr.backend.service.UserService;
+import compteAr.backend.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import CompteAr.backend.controller.UserController;
-import CompteAr.backend.model.Role;
-import CompteAr.backend.model.User;
+import compteAr.backend.controller.UserController;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserControllerTest {

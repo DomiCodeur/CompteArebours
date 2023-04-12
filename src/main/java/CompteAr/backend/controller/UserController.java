@@ -1,107 +1,164 @@
-package CompteAr.backend.controller;
+package compteAr.backend.controller;
 
-import CompteAr.backend.model.*;
-import CompteAr.backend.repository.UserRepository;
-import CompteAr.backend.service.AuthenticationService;
-import CompteAr.backend.service.JwtService;
-import CompteAr.backend.service.UserService;
-import lombok.AllArgsConstructor;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
-import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Optional;
+import compteAr.backend.resources.SavedDatesResource;
+import compteAr.backend.resources.UserResource;
+import compteAr.backend.service.SavedDatesService;
+import compteAr.backend.service.UserService;
 
+/**
+ * Endpoint utilisé pour la gestion des utilisateurs.
+ */
 @RestController
 @RequestMapping("/users")
-@AllArgsConstructor
 @Validated
 public class UserController {
 
-        @Autowired
-        private  UserService userService;
+	@Autowired
+	private UserService userService;
 
-        @Autowired
-        private AuthenticationService service;
+	@Autowired
+	private SavedDatesService savedDatesService;
+	
+	/**
+	 * Création d'un utilisateur.
+	 * 
+	 * @param userResource dto contenant les informations de l'utilisateur.
+	 * 
+	 * @return une {@link ResponseEntity} 201 contenant un {@link UserResource} 
+	 * ou une {@link ResponseEntity} 309 si l'utilisateur existe deja 
+	 * ou une {@link ResponseEntity} 500 en cas de problème lors de la sauvegarde en base de donnée.
+	 */
+	@PostMapping
+	public ResponseEntity<UserResource> createUser(@Valid @RequestBody UserResource userResource) {
+		//Vérification de la présence d'un utilisateur avec l'email fourni, si oui on renvoi une erreur conflict.
+		Optional<UserResource> existingUser = userService.findByEmail(userResource.getEmail());
+		if (existingUser.isPresent()) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
+		}
+		
+		//Sauvegarde de l'utilisateur.
+		Optional<UserResource> savedUser = userService.createUser(userResource);
+		if(savedUser.isPresent()) {
+			return new ResponseEntity<>(savedUser.get(), HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	/**
+	 * Récupération de tous les utilisateurs.
+	 * 
+	 * @return une {@link List} contenant tous les {@link UserResource} présents.
+	 */
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping
+	public List<UserResource> getAllUsers() {
+		return userService.getAllUsers();
+	}
 
-        @PostMapping("/createUser")
-        public ResponseEntity<UserInfo> createUser(@Valid @RequestBody User user) {
-                Optional<User> existingUser = userService.findByEmail(user.getEmail());
-                if (existingUser.isPresent()) {
-                        return new ResponseEntity<>(HttpStatus.CONFLICT);
-                }
-                User savedUser = userService.save(user);
-                savedUser.setRole(Role.USER);
-                userService.save(savedUser);
-                RegisterRequest request = new RegisterRequest();
-                request.setEmail(savedUser.getEmail());
-                request.setPassword(savedUser.getPassword());
-                request.setSignInMethod(savedUser.getSignInMethod());
-                request.setTimeUnit("dodos");
-                UserInfo userInfo = service.register(request);
-                return new ResponseEntity<>(userInfo, HttpStatus.CREATED);
+	/**
+	 * Réupération d'un utilisateur à partir de son id.
+	 * 
+	 * @param id l'id de l'utilisateur.
+	 * 
+	 * @return une {@link ResponseEntity} 200 contenant l'{@link UserResource} correspondante à la recherche
+	 * ou une {@link ResponseEntity} 404 si l'utilisateur n'a pas été trouvé.
+	 */
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/{id}")
+	public ResponseEntity<UserResource> getUserById(@PathVariable Integer id) {
+		return userService.getUserById(id)
+				.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+
+	/**
+	 * Mise à jour d'un utilisateur.
+	 * 
+	 * @param id l'id de l'utilisateur à mettre à jour.
+	 * @param userResource les données sous forme d'{@link UserResource}.
+	 * 
+	 * @return une {@link ResponseEntity} 200 en cas de réussite 
+	 * ou une {@link ResponseEntity} 404 si l'utilisateur n'a pas été trouvé.
+	 */
+	@PreAuthorize("isAuthenticated()")
+	@PutMapping("/{id}")
+	public ResponseEntity<UserResource> updateUser(@PathVariable Integer id, @Valid @RequestBody UserResource userResource) {
+		return userService.updateUser(id, userResource)
+				.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
+				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+
+	/**
+	 * Suppression d'un utilisateur.
+	 * 
+	 * @param id l'id de l'utilisateur à supprimer.
+	 * 
+	 * @return une {@link ResponseEntity} 204.
+	 */
+	@PreAuthorize("isAuthenticated()")
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
+		userService.deleteUser(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	/**
+	 * Récupération des dates pour un utilisateur donné.
+	 * 
+	 * @param userId l'id de l'utilisateur.
+	 * 
+	 * @return une {@link ResponseEntity} 200 contenant les dates 
+	 * ou une {@link ResponseEntity} 404 si l'utilisateur n'a pas de dates.
+	 */
+	@PreAuthorize("isAuthenticated()")
+    @GetMapping("/{userId}/dates")
+    public ResponseEntity<List<SavedDatesResource>> getSavedDatesByUserId(@PathVariable Integer userId) {
+        List<SavedDatesResource> savedDates = savedDatesService.findByUserId(userId);
+        if (!savedDates.isEmpty()) {
+            return new ResponseEntity<>(savedDates, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-
-        @PostMapping("/login")
-        public ResponseEntity<UserInfo> login(@Valid @RequestBody AuthenticationRequest request) {
-                User user = userService.findByEmail(request.getEmail())
-                        .orElse(null);
-                if (user == null) {
-                        return new ResponseEntity<>(new UserInfo(null, null, null, null, "Email inconnu"), HttpStatus.NOT_FOUND);
-                }
-
-                try {
-                        AuthenticationResponse response = service.authenticate(request);
-                        UserInfo userInfo = new UserInfo(user.getId(), user.getEmail(), user.getTimeUnit(), response.getToken(), null);
-                        return new ResponseEntity<>(userInfo, HttpStatus.OK);
-                } catch (AuthenticationException ex) {
-                        return new ResponseEntity<>(new UserInfo(null, null, null, null, "Erreur de mot de passe"), HttpStatus.UNAUTHORIZED);
-                }
+    }
+	
+	/**
+	 * Sauvegarde d'une date pour un utilisateur donné.
+	 * 
+	 * @param userId l'id de l'utilisateur.
+	 * @param savedDates la date à sauvegarder.O
+	 * 
+	 * @return une {@link ResponseEntity} 201 contenant la date sauvegardée 
+	 * ou une {@link ResponseEntity} 500 en cas de problème.
+	 */
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/{userId}/dates")
+    public ResponseEntity<SavedDatesResource> createSavedDates(@PathVariable Integer userId, @RequestBody SavedDatesResource savedDates) {
+        savedDates.setUserId(userId);
+        Optional<SavedDatesResource> savedDate = savedDatesService.saveDate(savedDates);
+        if(savedDate.isEmpty()) {
+        	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        @PreAuthorize("isAuthenticated()")
-        @GetMapping
-        public List<User> getAllUsers() {
-                return userService.getAllUsers();
-        }
-
-
-        @PreAuthorize("isAuthenticated()")
-        @GetMapping("/{id}")
-        public ResponseEntity<User> getUserById(@PathVariable Integer id) {
-                return userService.findById(id)
-                        .map(user -> new ResponseEntity<>(user, HttpStatus.OK))
-                        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        }
-
-        @PreAuthorize("isAuthenticated()")
-        @PutMapping("/{id}")
-        public ResponseEntity<User> updateUser(@PathVariable Integer id,@Valid  @RequestBody User userDetails) {
-                return userService.findById(id)
-                        .map(user -> {
-                                user.setPassword(userDetails.getPassword());
-                                user.setEmail(userDetails.getEmail());
-                                final User updatedUser = userService.save(user);
-                                return new ResponseEntity<>(updatedUser, HttpStatus.OK);
-                        })
-                        .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        }
-        @PreAuthorize("isAuthenticated()")
-        @DeleteMapping("/{id}")
-        public ResponseEntity deleteUser(@PathVariable Integer id) {
-                if (userService.findById(id).isPresent()) {
-                        userService.deleteById(id);
-                        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                } else {
-                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-                }
-        }
-
+        return new ResponseEntity<SavedDatesResource>(savedDate.get(), HttpStatus.CREATED);
+    }
+    
 }

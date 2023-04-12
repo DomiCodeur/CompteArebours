@@ -1,0 +1,16 @@
+# Exclusion Maven
+
+/target/
+
+
+# Exclusion Eclipse
+
+.metadata
+bin/
+.settings/
+.project
+.classpath
+classes/
+
+# Exclusion InteliJ ?
+

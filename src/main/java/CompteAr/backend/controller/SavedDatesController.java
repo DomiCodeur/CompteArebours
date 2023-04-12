@@ -1,52 +1,56 @@
-package CompteAr.backend.controller;
+package compteAr.backend.controller;
 
-import CompteAr.backend.model.SavedDates;
-import CompteAr.backend.repository.SavedDatesRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import compteAr.backend.resources.SavedDatesResource;
+import compteAr.backend.service.SavedDatesService;
 
+/**
+ * Endpoint utilisé pour la gestion des dates.
+ *
+ */
 @RestController
 @RequestMapping("/dates")
 public class SavedDatesController {
-    @Autowired
-    private SavedDatesRepository savedDatesRepository;
+	
+	@Autowired
+	private SavedDatesService savedDatesService;
+	
+	/**
+	 * Récupération de toutes les dates sauvegardées.
+	 * 
+	 * @return une {@link ResponseEntity} 200 contenant toutes les {@link SavedDatesResource}. 
+	 */
     @PreAuthorize("isAuthenticated()")
     @GetMapping
-    public List<SavedDates> getAllSavedDates() {
-        return savedDatesRepository.findAll();
+    public ResponseEntity<List<SavedDatesResource>> getAllSavedDates() {
+        return new ResponseEntity<List<SavedDatesResource>>(savedDatesService.findAll(), HttpStatus.OK);
     }
+    
+    /**
+     * Suppression d'une date.
+     * 
+     * @param dateId l'id de la date sauvegardée.
+     * @return
+     */
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<SavedDates>> getSavedDatesByUserId(@PathVariable Integer userId) {
-        List<SavedDates> savedDates = savedDatesRepository.findByUserId(userId);
-        if (!savedDates.isEmpty()) {
-            return new ResponseEntity<>(savedDates, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/{userId}")
-    public ResponseEntity<SavedDates> createSavedDates(@PathVariable Integer userId, @RequestBody SavedDates savedDates) {
-        savedDates.setUserId(userId);
-        SavedDates savedDate = savedDatesRepository.save(savedDates);
-        return new ResponseEntity<>(savedDate, HttpStatus.CREATED);
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @DeleteMapping("/{userId}/{dateId}")
-    public ResponseEntity<Void> deleteSavedDate(@PathVariable Integer userId, @PathVariable Integer dateId) {
-        return savedDatesRepository.findByIdAndUserId(dateId, userId)
-                .map(savedDates -> {
-                    savedDatesRepository.delete(savedDates);
-                    return new ResponseEntity<Void>(HttpStatus.OK);
-                })
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @DeleteMapping("/{dateId}")
+    public ResponseEntity<Void> deleteSavedDate(@PathVariable Integer dateId) {
+    	if(savedDatesService.deleteDate(dateId)) {
+    		return new ResponseEntity<>(HttpStatus.OK);
+    	} else {
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	}
     }
 }
 
