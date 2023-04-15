@@ -1,4 +1,4 @@
-package compteAr.backend.controller;
+package CompteAr.backend.controller;
 
 import java.util.Optional;
 
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import compteAr.backend.exception.AuthenticationException;
-import compteAr.backend.resources.AuthenticationResource;
-import compteAr.backend.resources.AuthenticationResponse;
-import compteAr.backend.resources.UserResource;
-import compteAr.backend.service.AuthenticationService;
-import compteAr.backend.service.UserService;
+import CompteAr.backend.exception.AuthenticationException;
+import CompteAr.backend.resources.AuthenticationResource;
+import CompteAr.backend.resources.AuthenticationResponse;
+import CompteAr.backend.resources.UserResource;
+import CompteAr.backend.service.AuthenticationService;
+import CompteAr.backend.service.UserService;
 
 /**
  * Endpoint d'authentification.

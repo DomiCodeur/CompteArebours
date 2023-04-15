@@ -1,4 +1,4 @@
-package compteAr.backend.controller;
+package CompteAr.backend.controller;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import compteAr.backend.resources.SavedDatesResource;
-import compteAr.backend.service.SavedDatesService;
+import CompteAr.backend.resources.SavedDatesResource;
+import CompteAr.backend.service.SavedDatesService;
 
 /**
  * Endpoint utilisé pour la gestion des dates.

@@ -1,15 +1,15 @@
-package compteAr.backend.service.impl;
+package CompteAr.backend.service.impl;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import CompteAr.backend.service.SavedDatesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import compteAr.backend.repository.SavedDatesRepository;
-import compteAr.backend.resources.SavedDatesResource;
-import compteAr.backend.service.SavedDatesService;
+import CompteAr.backend.repository.SavedDatesRepository;
+import CompteAr.backend.resources.SavedDatesResource;
 
 /**
  * Implementation du service {@link SavedDatesService}.
@@ -55,14 +55,14 @@ public class SavedDatesServiceImpl implements SavedDatesService {
 		
 	}
 
-	@Override
 	public boolean deleteDate(Integer dateId) {
-		if(!savedDatesRepository.existsById(dateId)) {
-			return false;
+		boolean exists = savedDatesRepository.existsById(dateId);
+		if (exists) {
+			savedDatesRepository.deleteById(dateId);
 		}
-		savedDatesRepository.deleteById(dateId);
-		return true;
+		return exists;
 	}
+
 	
 	
 }

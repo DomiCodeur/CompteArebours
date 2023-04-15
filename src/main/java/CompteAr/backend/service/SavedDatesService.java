@@ -1,10 +1,10 @@
-package compteAr.backend.service;
+package CompteAr.backend.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import compteAr.backend.entity.SavedDatesEntity;
-import compteAr.backend.resources.SavedDatesResource;
+import CompteAr.backend.entity.SavedDatesEntity;
+import CompteAr.backend.resources.SavedDatesResource;
 
 /**
  * Service gérant les dates.

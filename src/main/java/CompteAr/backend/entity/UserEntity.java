@@ -1,8 +1,8 @@
-package compteAr.backend.entity;
+package CompteAr.backend.entity;
 
+import CompteAr.backend.resources.UserResource;
 import org.hibernate.validator.constraints.Length;
 
-import compteAr.backend.resources.UserResource;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

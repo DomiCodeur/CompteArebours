@@ -1,13 +1,11 @@
-package compteAr.backend.repository;
+package CompteAr.backend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import compteAr.backend.entity.SavedDatesEntity;
+import CompteAr.backend.entity.SavedDatesEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * {@link Repository} pour la gestion des dates.

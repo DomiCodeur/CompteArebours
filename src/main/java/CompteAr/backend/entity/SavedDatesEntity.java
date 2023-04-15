@@ -1,10 +1,10 @@
-package compteAr.backend.entity;
+package CompteAr.backend.entity;
 
 import java.util.Date;
 
+import CompteAr.backend.resources.SavedDatesResource;
 import org.hibernate.validator.constraints.Length;
 
-import compteAr.backend.resources.SavedDatesResource;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

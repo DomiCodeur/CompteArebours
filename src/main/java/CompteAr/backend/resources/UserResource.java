@@ -1,7 +1,7 @@
-package compteAr.backend.resources;
+package CompteAr.backend.resources;
 
-import compteAr.backend.entity.Role;
-import compteAr.backend.entity.UserEntity;
+import CompteAr.backend.entity.Role;
+import CompteAr.backend.entity.UserEntity;
 import lombok.Builder;
 import lombok.Data;
 

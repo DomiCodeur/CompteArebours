@@ -1,4 +1,4 @@
-package compteAr.backend.service.impl;
+package CompteAr.backend.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,10 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import compteAr.backend.entity.UserEntity;
-import compteAr.backend.repository.UserRepository;
-import compteAr.backend.resources.UserResource;
-import compteAr.backend.service.UserService;
+import CompteAr.backend.entity.UserEntity;
+import CompteAr.backend.repository.UserRepository;
+import CompteAr.backend.resources.UserResource;
+import CompteAr.backend.service.UserService;
 
 /**
  * Implémentation du service {@link UserService}.

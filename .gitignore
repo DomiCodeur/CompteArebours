@@ -13,4 +13,8 @@ bin/
 classes/
 
 # Exclusion InteliJ ?
-
+*.iws
+*.iml
+*.ipr
+.idea/
+out/
