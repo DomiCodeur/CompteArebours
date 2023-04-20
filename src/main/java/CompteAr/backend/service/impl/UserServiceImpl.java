@@ -1,4 +1,4 @@
-package CompteAr.backend.service.impl;
+package compteAr.backend.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,10 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import CompteAr.backend.entity.UserEntity;
-import CompteAr.backend.repository.UserRepository;
-import CompteAr.backend.resources.UserResource;
-import CompteAr.backend.service.UserService;
+import compteAr.backend.entity.UserEntity;
+import compteAr.backend.repository.UserRepository;
+import compteAr.backend.resources.UserResource;
+import compteAr.backend.service.UserService;
 
 /**
  * Implémentation du service {@link UserService}.
@@ -68,8 +68,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Integer id) {
-        userRepository.deleteById(id);
+    public boolean deleteUser(Integer id) {
+    	if(existsById(id)) {
+    		userRepository.deleteById(id);
+    		return true;
+    	}
+
+    	return false;
     }
     
     @Override

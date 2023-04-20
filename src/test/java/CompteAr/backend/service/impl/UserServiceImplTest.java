@@ -1,4 +1,4 @@
-package CompteAr.backend.service.impl;
+package compteAr.backend.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -15,10 +15,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import CompteAr.backend.entity.Role;
-import CompteAr.backend.entity.UserEntity;
-import CompteAr.backend.repository.UserRepository;
-import CompteAr.backend.resources.UserResource;
+import compteAr.backend.entity.Role;
+import compteAr.backend.entity.UserEntity;
+import compteAr.backend.repository.UserRepository;
+import compteAr.backend.resources.UserResource;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {

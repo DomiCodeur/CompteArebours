@@ -1,10 +1,10 @@
-package CompteAr.backend.service;
+package compteAr.backend.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import CompteAr.backend.resources.UserResource;
-import CompteAr.backend.entity.UserEntity;
+import compteAr.backend.resources.UserResource;
+import compteAr.backend.entity.UserEntity;
 
 /**
  * Service de gestion des utilisateurs.
@@ -50,8 +50,10 @@ public interface UserService {
      * Suppression d'un utilisateur.
      * 
      * @param id l'id de l'utilisateur à supprimer.
+     * 
+     * @return true si l'utilisateur a bien été supprimé, false sinon.
      */
-    void deleteUser(Integer id);
+    boolean deleteUser(Integer id);
     
     /**
      * Récupération d'un utilisateur à partir de son email.

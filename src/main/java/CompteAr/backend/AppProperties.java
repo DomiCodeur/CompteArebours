@@ -1,4 +1,4 @@
-package CompteAr.backend;
+package compteAr.backend;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;

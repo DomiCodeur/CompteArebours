@@ -1,4 +1,4 @@
-package CompteAr.backend.config;
+package compteAr.backend.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

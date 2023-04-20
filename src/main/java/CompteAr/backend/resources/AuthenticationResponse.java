@@ -1,4 +1,4 @@
-package CompteAr.backend.resources;
+package compteAr.backend.resources;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,8 +1,11 @@
-package CompteAr.backend.resources;
+package compteAr.backend.resources;
 
 import java.util.Date;
 
-import CompteAr.backend.entity.SavedDatesEntity;
+import compteAr.backend.entity.SavedDatesEntity;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -22,28 +25,28 @@ public class SavedDatesResource {
 	/**
 	 * Id de l'utilisateur.
 	 */
-    private Integer userId;
+	@NotBlank(message = "l'id de l'utilisateur doit être renseigné.")
+	private Integer userId;
 
-    /**
-     * la {@link Date} associée.
-     */
-    private Date date;
+	/**
+	 * la {@link Date} associée.
+	 */
+	@NotNull(message = "la date ne doit pas être nulle.")
+	@Future(message = "impossible de saisir une date passée.")
+	private Date date;
 
-    /**
-     * le nom sauvegardé.
-     */
-    private String name;
-    
-    /**
-     * Transformation en entité.
-     * @return un {@link SavedDatesEntity}.
-     */
-    public SavedDatesEntity toEntity() {
-    	return SavedDatesEntity.builder()
-    			.id(id)
-    			.userId(userId)
-    			.date(date)
-    			.name(name)
-    			.build();
-    }
+	/**
+	 * le nom sauvegardé.
+	 */
+	@NotBlank(message = "le nom de la date doit être renseigné.")
+	private String name;
+
+	/**
+	 * Transformation en entité.
+	 * 
+	 * @return un {@link SavedDatesEntity}.
+	 */
+	public SavedDatesEntity toEntity() {
+		return SavedDatesEntity.builder().id(id).userId(userId).date(date).name(name).build();
+	}
 }

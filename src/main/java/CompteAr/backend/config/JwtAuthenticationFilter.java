@@ -1,6 +1,6 @@
-package CompteAr.backend.config;
+package compteAr.backend.config;
 
-import CompteAr.backend.service.JwtService;
+import compteAr.backend.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

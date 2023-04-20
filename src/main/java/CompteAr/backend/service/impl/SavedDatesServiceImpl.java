@@ -1,15 +1,15 @@
-package CompteAr.backend.service.impl;
+package compteAr.backend.service.impl;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import CompteAr.backend.service.SavedDatesService;
+import compteAr.backend.service.SavedDatesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import CompteAr.backend.repository.SavedDatesRepository;
-import CompteAr.backend.resources.SavedDatesResource;
+import compteAr.backend.repository.SavedDatesRepository;
+import compteAr.backend.resources.SavedDatesResource;
 
 /**
  * Implementation du service {@link SavedDatesService}.

@@ -1,19 +1,19 @@
-package CompteAr.backend.service;
+package compteAr.backend.service;
 
 import java.util.Optional;
 
-import CompteAr.backend.repository.UserRepository;
-import CompteAr.backend.resources.AuthenticationResource;
-import CompteAr.backend.resources.AuthenticationResponse;
+import compteAr.backend.repository.UserRepository;
+import compteAr.backend.resources.AuthenticationResource;
+import compteAr.backend.resources.AuthenticationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
-import CompteAr.backend.entity.UserEntity;
-import CompteAr.backend.exception.AuthenticationException;
-import CompteAr.backend.model.UserDetail;
+import compteAr.backend.entity.UserEntity;
+import compteAr.backend.exception.AuthenticationException;
+import compteAr.backend.model.UserDetail;
 
 /**
  * Service gérant l'authentification.

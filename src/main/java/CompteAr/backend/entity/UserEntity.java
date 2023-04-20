@@ -1,6 +1,6 @@
-package CompteAr.backend.entity;
+package compteAr.backend.entity;
 
-import CompteAr.backend.resources.UserResource;
+import compteAr.backend.resources.UserResource;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.annotation.Nullable;
@@ -42,7 +42,7 @@ public class UserEntity {
     private String email;
 
     @NotBlank(message = "Le mot de passe ne doit pas être vide")
-    @Length(min = 8, max = 70, message = "Le mot de passe doit être entre 8 et 15 caractères")
+    @Length(min = 8, max = 70, message = "Le mot de passe doit être entre 8 et 70 caractères")
     private String password;
 
     private String signInMethod;

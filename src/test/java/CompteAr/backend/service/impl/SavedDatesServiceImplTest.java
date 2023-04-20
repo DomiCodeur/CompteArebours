@@ -1,4 +1,4 @@
-package CompteAr.backend.service.impl;
+package compteAr.backend.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,9 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import CompteAr.backend.entity.SavedDatesEntity;
-import CompteAr.backend.repository.SavedDatesRepository;
-import CompteAr.backend.resources.SavedDatesResource;
+import compteAr.backend.entity.SavedDatesEntity;
+import compteAr.backend.repository.SavedDatesRepository;
+import compteAr.backend.resources.SavedDatesResource;
 
 /**
  * Tests unitaires pour la classe SavedDatesServiceImpl.

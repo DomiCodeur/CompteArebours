@@ -1,9 +1,9 @@
-package CompteAr.backend.model;
+package compteAr.backend.model;
 
 import java.util.Collection;
 import java.util.List;
 
-import CompteAr.backend.entity.Role;
+import compteAr.backend.entity.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

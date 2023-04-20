@@ -1,9 +1,9 @@
-package CompteAr.backend.repository;
+package compteAr.backend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import CompteAr.backend.entity.SavedDatesEntity;
+import compteAr.backend.entity.SavedDatesEntity;
 
 import java.util.List;
 
