@@ -1,58 +1,55 @@
-package CompteAr.backend.service;
+package compteAr.backend.service;
 
-import CompteAr.backend.model.*;
-import CompteAr.backend.repository.UserRepository;
+import java.util.Optional;
 
-import lombok.RequiredArgsConstructor;
+import compteAr.backend.repository.UserRepository;
+import compteAr.backend.resources.AuthenticationResource;
+import compteAr.backend.resources.AuthenticationResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import compteAr.backend.entity.UserEntity;
+import compteAr.backend.exception.AuthenticationException;
+import compteAr.backend.model.UserDetail;
+
+/**
+ * Service gérant l'authentification.
+ */
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService {
-  private final UserRepository repository;
-  private final PasswordEncoder passwordEncoder;
-  private final JwtService jwtService;
-  private final AuthenticationManager authenticationManager;
 
-  public UserInfo register(RegisterRequest request) {
-    User user = User.builder()
-            .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword()))
-            .signInMethod(request.getSignInMethod())
-            .timeUnit(request.getTimeUnit())
-            .role(Role.USER)
-            .build();
-    repository.save(user);
-    String jwtToken = jwtService.generateToken(user);
-    return UserInfo.builder()
-            .id(user.getId())
-            .email(user.getEmail())
-            .timeUnit(user.getTimeUnit())
-            .token(jwtToken)
-            .build();
-  }
+	@Autowired
+	private UserRepository repository;
+	
+	@Autowired
+	private JwtService jwtService;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-  public AuthenticationResponse authenticate(AuthenticationRequest request) throws AuthenticationException {
-    try {
-      authenticationManager.authenticate(
-              new UsernamePasswordAuthenticationToken(
-                      request.getEmail(),
-                      request.getPassword()
-              )
-      );
-    } catch (BadCredentialsException e) {
-      throw new AuthenticationException("Email ou mot de passe incorrect");
-    }
+	/**
+	 * 
+	 * @param request
+	 * @return
+	 * @throws AuthenticationException
+	 */
+	public AuthenticationResponse authenticate(AuthenticationResource request) throws AuthenticationException {
+		try {
+			authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+		} catch (BadCredentialsException e) {
+			throw new AuthenticationException("Email ou mot de passe incorrect");
+		}
 
-    User user = repository.findByEmail(request.getEmail())
-            .orElseThrow(() -> new AuthenticationException("Email ou mot de passe incorrect"));
-    String jwtToken = jwtService.generateToken(user);
-    return new AuthenticationResponse(jwtToken, user.getId(), "");
-  }
+		Optional<UserEntity> user = repository.findByEmail(request.getEmail());
+		UserDetail userDetail = user.map(userEntity -> UserDetail.builder().userName(userEntity.getEmail())
+				.password(userEntity.getPassword()).build()).get();
+		String jwtToken = jwtService.generateToken(userDetail);
+		return new AuthenticationResponse(jwtToken, user.get().getId(), "");
+	}
 
-};
+}
 

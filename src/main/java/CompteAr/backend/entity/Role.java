@@ -1,4 +1,4 @@
-package CompteAr.backend.model;
+package compteAr.backend.entity;
 
 public enum Role {
     USER,
