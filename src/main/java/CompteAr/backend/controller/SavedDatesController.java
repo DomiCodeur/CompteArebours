@@ -68,7 +68,7 @@ public class SavedDatesController {
 	@PreAuthorize("isAuthenticated()")
 	@DeleteMapping("/{dateId}")
 	public ResponseEntity<Void> deleteSavedDate(
-			@Parameter(description = "L'id de la date à supprimer.") @Valid @NotBlank @PathVariable Integer dateId) {
+			@Parameter(description = "L'id de la date à supprimer.") @Valid  @PathVariable Integer dateId) {
 		if (savedDatesService.deleteDate(dateId)) {
 			return new ResponseEntity<>(HttpStatus.OK);
 		} else {
