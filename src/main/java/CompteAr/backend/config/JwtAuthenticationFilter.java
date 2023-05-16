@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.http.HttpHeaders;
 
 import java.io.IOException;
 
@@ -37,6 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     final String authHeader = request.getHeader("Authorization");
     final String jwt;
     final String userEmail;
+    response.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "https://zzztracker.site");
     if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
       filterChain.doFilter(request, response);
       return;

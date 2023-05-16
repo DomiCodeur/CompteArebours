@@ -14,7 +14,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-            .allowedOrigins("http://zzztracker.site","https://zzztracker.site", "https://carvue-matdomichard.vercel.app")
+            .allowedOrigins("https://zzztracker.site", "https://carvue-matdomichard.vercel.app")
             .allowedMethods("*")
             .allowedHeaders("*")
             .allowCredentials(true)
