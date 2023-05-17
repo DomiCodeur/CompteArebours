@@ -15,7 +15,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/api/v1/auth/authenticate")
             .allowedOrigins("https://zzztracker.site")
-            .allowedMethods("POST")
+            .allowedMethods("GET", "POST")
             .allowedHeaders("Content-Type")
             .allowCredentials(true);
   }
