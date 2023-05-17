@@ -37,6 +37,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     final String authHeader = request.getHeader("Authorization");
     final String jwt;
     final String userEmail;
+    response.setHeader("Access-Control-Allow-Origin", "https://zzztracker.site");
+    response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
       filterChain.doFilter(request, response);
       return;
@@ -57,11 +61,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authToken);
       }
     }
-
-    // Ajouter les en-têtes CORS nécessaires
-    response.setHeader("Access-Control-Allow-Origin", "https://zzztracker.site");
-    response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
     filterChain.doFilter(request, response);
   }
