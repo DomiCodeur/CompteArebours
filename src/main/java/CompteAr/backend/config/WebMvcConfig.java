@@ -13,11 +13,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
   @Override
   public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/**")
-            .allowedOrigins("https://zzztracker.site", "https://carvue-matdomichard.vercel.app")
-            .allowedMethods("*")
-            .allowedHeaders("*")
-            .allowCredentials(true)
-            .maxAge(-1);
+    registry.addMapping("/api/v1/auth/authenticate")
+            .allowedOrigins("https://zzztracker.site")
+            .allowedMethods("POST")
+            .allowedHeaders("Content-Type")
+            .allowCredentials(true);
   }
 }
