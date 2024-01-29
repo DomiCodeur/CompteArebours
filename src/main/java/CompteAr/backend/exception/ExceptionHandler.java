@@ -1,7 +1,8 @@
-package compteAr.backend.exception;
+package CompteAr.backend.exception;
 
 import java.util.Date;
 
+import CompteAr.backend.resources.ExceptionResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import compteAr.backend.resources.ExceptionResource;
 
 /**
  * ControllerAdvice permettant d'intercepter les exceptions qui surviennent au

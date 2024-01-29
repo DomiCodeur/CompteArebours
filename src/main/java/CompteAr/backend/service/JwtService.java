@@ -1,4 +1,4 @@
-package compteAr.backend.service;
+package CompteAr.backend.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

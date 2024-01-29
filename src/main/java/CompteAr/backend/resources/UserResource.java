@@ -1,7 +1,7 @@
-package compteAr.backend.resources;
+package CompteAr.backend.resources;
 
-import compteAr.backend.entity.Role;
-import compteAr.backend.entity.UserEntity;
+import CompteAr.backend.entity.Role;
+import CompteAr.backend.entity.UserEntity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

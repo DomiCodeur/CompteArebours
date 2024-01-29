@@ -1,7 +1,11 @@
-package compteAr.backend.controller;
+package CompteAr.backend.controller;
 
 import java.util.Optional;
 
+import CompteAr.backend.exception.AuthenticationException;
+import CompteAr.backend.resources.AuthenticationResource;
+import CompteAr.backend.resources.AuthenticationResponse;
+import CompteAr.backend.resources.UserResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import compteAr.backend.exception.AuthenticationException;
-import compteAr.backend.resources.AuthenticationResource;
-import compteAr.backend.resources.AuthenticationResponse;
-import compteAr.backend.resources.UserResource;
-import compteAr.backend.service.AuthenticationService;
-import compteAr.backend.service.UserService;
+import CompteAr.backend.service.AuthenticationService;
+import CompteAr.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

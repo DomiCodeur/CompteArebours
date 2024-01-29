@@ -1,6 +1,6 @@
-package compteAr.backend.entity;
+package CompteAr.backend.entity;
 
-import compteAr.backend.resources.UserResource;
+import CompteAr.backend.resources.UserResource;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.annotation.Nullable;

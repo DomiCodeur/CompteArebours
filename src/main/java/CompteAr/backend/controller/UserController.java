@@ -1,8 +1,10 @@
-package compteAr.backend.controller;
+package CompteAr.backend.controller;
 
 import java.util.List;
 import java.util.Optional;
 
+import CompteAr.backend.resources.SavedDatesResource;
+import CompteAr.backend.resources.UserResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import compteAr.backend.resources.SavedDatesResource;
-import compteAr.backend.resources.UserResource;
-import compteAr.backend.service.SavedDatesService;
-import compteAr.backend.service.UserService;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import CompteAr.backend.service.SavedDatesService;
+import CompteAr.backend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

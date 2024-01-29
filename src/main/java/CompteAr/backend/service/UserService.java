@@ -1,10 +1,10 @@
-package compteAr.backend.service;
+package CompteAr.backend.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import compteAr.backend.resources.UserResource;
-import compteAr.backend.entity.UserEntity;
+import CompteAr.backend.entity.UserEntity;
+import CompteAr.backend.resources.UserResource;
 
 /**
  * Service de gestion des utilisateurs.

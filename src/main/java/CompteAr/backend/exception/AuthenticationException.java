@@ -1,4 +1,4 @@
-package compteAr.backend.exception;
+package CompteAr.backend.exception;
 
 /**
  * Exception liée au problèmes d'authentification.

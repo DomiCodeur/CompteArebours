@@ -1,5 +1,6 @@
-package compteAr.backend.config;
+package CompteAr.backend.config;
 
+import CompteAr.backend.model.UserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import compteAr.backend.model.UserDetail;
-import compteAr.backend.service.UserService;
+import CompteAr.backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 /**

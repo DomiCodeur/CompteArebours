@@ -1,4 +1,4 @@
-package compteAr.backend.resources;
+package CompteAr.backend.resources;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

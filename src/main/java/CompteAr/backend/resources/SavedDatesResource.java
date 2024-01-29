@@ -1,8 +1,8 @@
-package compteAr.backend.resources;
+package CompteAr.backend.resources;
 
 import java.util.Date;
 
-import compteAr.backend.entity.SavedDatesEntity;
+import CompteAr.backend.entity.SavedDatesEntity;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
