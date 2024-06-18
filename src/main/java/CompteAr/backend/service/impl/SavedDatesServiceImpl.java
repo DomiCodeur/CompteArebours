@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import CompteAr.backend.entity.SavedDatesEntity;
 import CompteAr.backend.repository.SavedDatesRepository;
 import CompteAr.backend.resources.SavedDatesResource;
 import CompteAr.backend.service.SavedDatesService;
@@ -54,14 +55,13 @@ public class SavedDatesServiceImpl implements SavedDatesService {
 		
 	}
 
-	public boolean deleteDate(Integer dateId) {
-		boolean exists = savedDatesRepository.existsById(dateId);
-		if (exists) {
+	public boolean deleteDate(Integer userId, Integer dateId) {
+		Optional<SavedDatesEntity> date = savedDatesRepository.findByUserIdAndId(userId, dateId);
+		if (date.isPresent()) {
 			savedDatesRepository.deleteById(dateId);
+			return true;
 		}
-		return exists;
+		return false;
 	}
 
-	
-	
 }

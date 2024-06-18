@@ -52,26 +52,4 @@ public class SavedDatesController {
 		return new ResponseEntity<List<SavedDatesResource>>(savedDatesService.findAll(), HttpStatus.OK);
 	}
 
-	/**
-	 * Suppression d'une date.
-	 * 
-	 * @param dateId l'id de la date sauvegardée.
-	 * @return une {@link ResponseEntity} 200 en cas de succes, une
-	 *         {@link ResponseEntity} 404 si l'utilisateur n'a pas été trouvé.
-	 */
-	@Operation(summary = "Suppression d'une date à partir de son id.")
-	@SecurityRequirement(name = "Bearer Authentication")
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "La date a bien été supprimée.", content = @Content),
-			@ApiResponse(responseCode = "404", description = "La date n'existe pas en base de donnée.", content = @Content) })
-	@PreAuthorize("isAuthenticated()")
-	@DeleteMapping("/{dateId}")
-	public ResponseEntity<Void> deleteSavedDate(
-			@Parameter(description = "L'id de la date à supprimer.") @Valid  @PathVariable Integer dateId) {
-		if (savedDatesService.deleteDate(dateId)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
-	}
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import CompteAr.backend.entity.SavedDatesEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * {@link Repository} pour la gestion des dates.
@@ -26,6 +27,7 @@ public interface SavedDatesRepository extends JpaRepository<SavedDatesEntity, In
     List<SavedDatesEntity> findByUserId(Integer userId);
 
 //    void delete(SavedDatesEntity savedDates);
-//
-//    Optional<SavedDatesEntity> findByIdAndUserId(Integer dateId, Integer userId);
+
+	Optional<SavedDatesEntity> findByUserIdAndId(Integer userId, Integer dateId);
+
 }

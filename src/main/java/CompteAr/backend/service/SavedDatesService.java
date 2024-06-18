@@ -39,10 +39,11 @@ public interface SavedDatesService {
 	
 	/**
 	 * Suppression d'un date donnée.
-	 * 
+	 *
+	 * @param userId l'id de l'utilisateur.
 	 * @param dateId l'id de la date à supprimer.
 	 * @return true si l'opération a réussie, false si la date ne peut etre trouvée.
 	 */
-	boolean deleteDate(Integer dateId);
+	boolean deleteDate(Integer userId, Integer dateId);
 	
 }

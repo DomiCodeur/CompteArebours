@@ -25,7 +25,7 @@ public class SavedDatesResource {
 	/**
 	 * Id de l'utilisateur.
 	 */
-	@NotBlank(message = "l'id de l'utilisateur doit être renseigné.")
+	@NotNull(message = "l'id de l'utilisateur doit être renseigné.")
 	private Integer userId;
 
 	/**

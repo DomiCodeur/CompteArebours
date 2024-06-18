@@ -221,4 +221,33 @@ public class UserController {
 		return new ResponseEntity<SavedDatesResource>(savedDate.get(), HttpStatus.CREATED);
 	}
 
+
+	/**
+	 * Suppression d'une date pour un utilisateur donné.
+	 *
+	 * @param userId  l'id de l'utilisateur.
+	 * @param dateId  l'id de la date à supprimer.
+	 *
+	 * @return une {@link ResponseEntity} indiquant le résultat de l'opération.
+	 */
+	@Operation(summary = "Suppression d'une date pour un utilisateur donné.")
+	@SecurityRequirement(name = "Bearer Authentication")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "204", description = "La date a bien été supprimée.", content = @Content),
+			@ApiResponse(responseCode = "404", description = "La date ou l'utilisateur n'existe pas.", content = @Content),
+			@ApiResponse(responseCode = "403", description = "Opération non autorisée.", content = @Content)
+	})
+	@PreAuthorize("isAuthenticated()")
+	@DeleteMapping("/{userId}/dates/{dateId}")
+	public ResponseEntity<Void> deleteSavedDate(
+			@Parameter(description = "L'id de l'utilisateur.") @PathVariable Integer userId,
+			@Parameter(description = "L'id de la date à supprimer.") @PathVariable Integer dateId) {
+		boolean isDeleted = savedDatesService.deleteDate(userId, dateId);
+		if (isDeleted) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 }

@@ -139,40 +139,40 @@ public class SavedDatesServiceImplTest {
     @Test
     public void testDeleteDateCasNominal() {
         // Given
+        Integer userId = 1;
         Integer dateId = 1;
 
-        // Le repository doit renvoyer true si l'entité avec l'ID dateId existe, false sinon
-        when(savedDatesRepository.existsById(dateId)).thenReturn(true, false);
+        // Le repository doit renvoyer une entité si l'utilisateur et l'ID existent
+        SavedDatesEntity savedDateEntity = SavedDatesEntity.builder().id(dateId).userId(userId).date(new Date()).name("event").build();
+        when(savedDatesRepository.findByUserIdAndId(userId, dateId)).thenReturn(Optional.of(savedDateEntity)).thenReturn(Optional.empty());
 
         // When
-        boolean deleted = savedDatesService.deleteDate(dateId);
+        boolean deleted = savedDatesService.deleteDate(userId, dateId);
 
         // Then
         assertThat(deleted).isTrue();
         verify(savedDatesRepository).deleteById(dateId);
 
-        deleted = savedDatesService.deleteDate(dateId);
+        deleted = savedDatesService.deleteDate(userId, dateId);
         assertThat(deleted).isFalse();
         verify(savedDatesRepository, times(1)).deleteById(dateId);
     }
 
-
-
-
     @Test
     public void testDeleteDateNotFound() {
         // Given
+        Integer userId = 1;
         Integer dateId = 1;
 
-        // Le repository ne trouve pas de date avec cet ID, donc il renvoie false
-        when(savedDatesRepository.existsById(dateId)).thenReturn(false);
+        // Le repository ne trouve pas de date avec cet ID et cet userId, donc il renvoie un Optional vide
+        when(savedDatesRepository.findByUserIdAndId(userId, dateId)).thenReturn(Optional.empty());
 
         // When
-        boolean deleted = savedDatesService.deleteDate(dateId);
+        boolean deleted = savedDatesService.deleteDate(userId, dateId);
 
         // Then
         assertThat(deleted).isFalse();
-        verify(savedDatesRepository).existsById(dateId);
+        verify(savedDatesRepository, never()).deleteById(dateId);
     }
 
 }
