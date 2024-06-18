@@ -13,9 +13,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
   @Override
   public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/api/v1/auth/authenticate")
-            .allowedOrigins("https://zzztracker.site")
-            .allowedMethods("GET", "POST")
+    registry.addMapping("/auth/authenticate")
+            .allowedOrigins("https://zzztracker.vercel.app")
+            .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
             .allowedHeaders("Content-Type")
             .allowCredentials(true);
   }
