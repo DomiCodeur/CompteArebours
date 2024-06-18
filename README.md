@@ -4,9 +4,9 @@
 Mon outil de calcul de temps restant
 </div>
 
-Ce projet est un outil en ligne qui permet aux utilisateurs de calculer le temps restant jusqu'à une date donnée, en jours, mois, années ou en nombre de dodos. Les utilisateurs peuvent s'enregistrer et sauvegarder leurs dates, et choisir l'unité de temps dans laquelle ils souhaitent afficher le temps restant.
+Ce projet est un outil en ligne qui permet aux utilisateurs de calculer le temps restant jusqu'à une date donnée, en jours, mois, années ou en nombre de nuits. Les utilisateurs peuvent s'enregistrer et sauvegarder leurs dates, et choisir l'unité de temps dans laquelle ils souhaitent afficher le temps restant.
 
-Cet outil est développé avec une combinaison de Java et de React, en utilisant le backend Java pour gérer les calculs de date, les utilisateurs et les dates sauvegardées, et en utilisant React pour afficher l'interface utilisateur et prendre en charge la saisie de la date et les choix d'unité de temps par l'utilisateur. Une base de données PostgreSQL est utilisée pour stocker les dates sauvegardées par les utilisateurs et leurs préférences d'unité de temps.
+Cet outil est développé avec une combinaison de Java et de Angular, en utilisant le backend Java pour gérer les calculs de date, les utilisateurs et les dates sauvegardées, et en utilisant Angular pour afficher l'interface utilisateur et prendre en charge la saisie de la date et les choix d'unité de temps par l'utilisateur. Une base de données PostgreSQL est utilisée pour stocker les dates sauvegardées par les utilisateurs et leurs préférences d'unité de temps.
 
 
 ## Table des matières
