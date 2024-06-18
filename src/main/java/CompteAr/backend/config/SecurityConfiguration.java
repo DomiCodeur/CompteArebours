@@ -31,7 +31,7 @@ public class SecurityConfiguration {
         .authorizeHttpRequests()
         .requestMatchers(HttpMethod.POST, "/users/**","/dates/**", "/auth/**","/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**")
         .permitAll()
-        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**" )
+        .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "https://zzztracker.vercel.app/**" )
         .permitAll()
         .anyRequest()
         .authenticated()
