@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:sqlite:bddcar.sqlite
+    url: "${COMPTAREBOURS_DB}"
     driver-class-name: org.sqlite.JDBC
   jpa:
     database-platform: org.hibernate.community.dialect.SQLiteDialect
