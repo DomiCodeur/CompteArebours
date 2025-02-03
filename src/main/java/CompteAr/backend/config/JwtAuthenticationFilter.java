@@ -37,7 +37,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     final String authHeader = request.getHeader("Authorization");
     final String jwt;
     final String userEmail;
-    response.setHeader("Access-Control-Allow-Origin", "https://zzztracker.vercel.app");
+    
+    // Récupérer l'origine de la requête
+    String origin = request.getHeader("Origin");
+    
+    // Liste des origines autorisées
+    if ("https://zzztracker.vercel.app".equals(origin) || "https://zzztracker.duckdns.org".equals(origin)) {
+        response.setHeader("Access-Control-Allow-Origin", origin);
+    }
+
     response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
     response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
