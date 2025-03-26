@@ -26,9 +26,12 @@ public class SecurityConfiguration {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http)  throws Exception {
     http
+        .cors()  // Active la gestion CORS par Spring Security
+        .and()
         .csrf()
         .disable()
         .authorizeHttpRequests()
+        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() //permettre requête preflight
         .requestMatchers(HttpMethod.POST, "/users/**","/dates/**", "/auth/**","/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**")
         .permitAll()
         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "https://zzztracker.vercel.app/**" )
