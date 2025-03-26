@@ -47,5 +47,21 @@ public class SecurityConfiguration {
 
     return http.build();
   }
+
+
+  // Bean pour que http.cors() sache quelles origines/méthodes/headers autoriser
+  @Bean
+  public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
+    var configuration = new org.springframework.web.cors.CorsConfiguration();
+    configuration.setAllowedOrigins(java.util.List.of("http://localhost:4200", "https://zzztracker.vercel.app"));
+    configuration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+    configuration.setAllowedHeaders(java.util.List.of("*"));
+    // si besoin: configuration.setAllowCredentials(true);
+
+    var source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+
+    return source;
+  }
   
 }
