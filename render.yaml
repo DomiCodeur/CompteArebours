@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: comptearebours-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    buildCommand: mvn clean package -DskipTests
+    envVars:
+      - key: COMPTAREBOURS_DB
+        value: jdbc:sqlite:comptarebours.db
